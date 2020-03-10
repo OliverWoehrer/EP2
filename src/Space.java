@@ -16,6 +16,7 @@ public class Space {
     // This means each second its speed increases about 9.82 meters per second.
 
     //TODO: further variables, if needed.
+    private static final int sec = 10; // duration of movements
 
     // The main simulation method using instances of other classes.
     public static void main(String[] args) {
@@ -50,24 +51,24 @@ public class Space {
         orb.setMass(2e3);
         orb.setPosition(0,0,0);
         orb.setVelocity(1,2,3);   // 3.7m/s initial velocity
-        linearMovement(10, orb);    // move for 10 seconds
-        System.out.println("new orb position: " + Arrays.toString(orb.getPosition()) );
+        linearMovement(sec, orb);    // move for 10 seconds
+        System.out.println("new orb position after " + sec + " sec: " + Arrays.toString(orb.getPosition()) );
 
         //rocket test case:
         Body rocket = new Body();
         rocket.setMass(2e3);    // 2000kg
         rocket.setPosition(0,0,0);
         rocket.setVelocity(0,0,0);   // 0m/s initial velocity at take off
-        acceleratedMovement(30, rocket, 0, 0, 5e6);
-        System.out.println("new rocket position: " + Arrays.toString(rocket.getPosition()) );
+        acceleratedMovement(sec, rocket, 0, 0, 5e6);
+        System.out.println("new rocket position after " + sec + " sec: " + Arrays.toString(rocket.getPosition()) );
 
         //feather test case:
         Body feather = new Body();
         feather.setMass(0.001);
         feather.setPosition(0, 0, 0);
         feather.setVelocity(0, 0, 0);
-        //feather.randomMovement();
-        //System.out.println("new feather position: ");
+        randomMovement(feather);
+        System.out.println("new feather position after " + sec + " sec: " + Arrays.toString(feather.getPosition()));
     }
 
     // Returns the number of move(fx,fy,fz) calls needed for 'b' hitting the ground, i.e.,
@@ -103,9 +104,10 @@ public class Space {
     }
 
     public static void randomMovement(Body b) {
-        double fx = 10*Math.random();
-        double fy = 10*Math.random();
-        double fz = 10*Math.random();
+        double fx = (Math.random()) - 0.5;
+        double fy = (Math.random()) - 0.5;
+        double fz = (Math.random()) - 0.5;
+        b.move(fx, fy, fz);
         // recursive call of acceleratedMovement with new acceleration forces
     }
 }
