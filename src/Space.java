@@ -67,7 +67,7 @@ public class Space {
         feather.setMass(0.001);
         feather.setPosition(0, 0, 0);
         feather.setVelocity(0, 0, 0);
-        randomMovement(feather);
+        randomMovement(sec, feather);
         System.out.println("new feather position after " + sec + " sec: " + Arrays.toString(feather.getPosition()));
     }
 
@@ -91,24 +91,42 @@ public class Space {
      */
     public static void linearMovement(int seconds, Body b) {
         if (seconds > 0) {  // recursive step
-            b.move(); // perform linear movement
+            b.move(); // perform linear move
             linearMovement(seconds - 1, b); // enter recursion
         } // else: movement finished
     }
 
+    /**
+     * moves an object through space with a constant acceleration applied to it for the given number of seconds.
+     * Therefor the objects is either speed up, slowing down or traveling at a constant speed if the acceleration
+     * is zero.
+     * @param seconds duration of movement in seconds
+     * @param b body to be moved
+     * @param fx acceleration force in x direction
+     * @param fy acceleration force in y direction
+     * @param fz acceleration force in z direction
+     */
     public static void acceleratedMovement(int seconds, Body b, double fx, double fy, double fz) {
         if (seconds > 0) {  // recursive step
-            b.move(fx, fy, fz); // perform accelerated movement
+            b.move(fx, fy, fz); // perform accelerated move
             acceleratedMovement(seconds-1, b, fx, fy, fz);
         } // else: movement finished
     }
 
-    public static void randomMovement(Body b) {
-        double fx = (Math.random()) - 0.5;
-        double fy = (Math.random()) - 0.5;
-        double fz = (Math.random()) - 0.5;
-        b.move(fx, fy, fz);
-        // recursive call of acceleratedMovement with new acceleration forces
+    /**
+     * moves an object through space with a random acceleration force applied to it for the given number of seconds.
+     * The force moving the body changes every second and varies between -0.5...+0.5 Newton in each direction (x,y,z)
+     * @param seconds duration of movement in seconds
+     * @param b body to be randomly moved
+     */
+    public static void randomMovement(int seconds, Body b) {
+        if (seconds > 0) {
+            double fx = (Math.random()) - 0.5;
+            double fy = (Math.random()) - 0.5;
+            double fz = (Math.random()) - 0.5;
+            b.move(fx, fy, fz); // perform single move
+            randomMovement(seconds-1, b); // recursive call
+        } // else: movement finished
     }
 }
 
