@@ -52,7 +52,7 @@ public class Space {
         orb.setPosition(0,0,0);
         orb.setVelocity(1,2,3);   // 3.7m/s initial velocity
         linearMovement(sec, orb);    // move for 10 seconds
-        System.out.println("new orb position after " + sec + " sec: " + Arrays.toString(orb.getPosition()) );
+        System.out.println("new orb position after " + sec + " sec.");
 
         //rocket test case:
         Body rocket = new Body();
@@ -60,7 +60,7 @@ public class Space {
         rocket.setPosition(0,0,0);
         rocket.setVelocity(0,0,0);   // 0m/s initial velocity at take off
         acceleratedMovement(sec, rocket, 0, 0, 5e6);
-        System.out.println("new rocket position after " + sec + " sec: " + Arrays.toString(rocket.getPosition()) );
+        System.out.println("new rocket position after " + sec + " sec.");
 
         //feather test case:
         Body feather = new Body();
@@ -68,7 +68,7 @@ public class Space {
         feather.setPosition(0, 0, 0);
         feather.setVelocity(0, 0, 0);
         randomMovement(sec, feather);
-        System.out.println("new feather position after " + sec + " sec: " + Arrays.toString(feather.getPosition()));
+        System.out.println("new feather position after " + sec + " sec.");
     }
 
     // Returns the number of move(fx,fy,fz) calls needed for 'b' hitting the ground, i.e.,

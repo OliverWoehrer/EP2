@@ -1,3 +1,5 @@
+import java.util.Locale;
+
 public class Simulation {
 
     // gravitational constant
@@ -12,52 +14,23 @@ public class Simulation {
     public static void main(String[] args) {
 
         //TODO: change implementation of this method according to 'Aufgabenblatt2.md'.
+        Locale.setDefault(Locale.US);
+        //Initialize Body Objects:
+        CelestialBody sun = new CelestialBody("Sol", 1.989e30, 696340e3, StdDraw.YELLOW);
+        sun.print();
 
-        CelestialBody sun = new CelestialBody();
-        sun.name = "Sol";
-        sun.mass = 1.989e30; // kg
-        sun.radius = 696340e3; // meters
-        sun.position = new Vector3();
-        sun.currentMovement = new Vector3();
-        sun.position.x = 0; // meters
-        sun.position.y = 0;
-        sun.position.z = 0;
-        // sun is the reference point and assumed not to move.
-        sun.currentMovement.x = 0;
-        sun.currentMovement.y = 0;
-        sun.currentMovement.z = 0;
-        sun.color = StdDraw.YELLOW;
+        CelestialBody earth = new CelestialBody("Earth", 5.972e24, 6371e3, StdDraw.BLUE,
+                148e9, 0, 0, 0, 29.29e3, 0);
+        // minimal distance to sun: 148e9 meters
+        // orbital speed at minimal distance: 29.29e3 m/s
+        earth.print();
 
-        CelestialBody earth = new CelestialBody();
-        earth.name = "Earth";
-        earth.mass = 5.972e24; // kg
-        earth.radius = 6371e3; // meters
-        earth.position = new Vector3();
-        earth.currentMovement = new Vector3();
-        earth.position.x = 148e9; // minimal distance to sun in meters.
-        earth.position.y = 0;
-        earth.position.z = 0;
-        // viewing from z direction movement is counter-clockwise
-        earth.currentMovement.x = 0;
-        earth.currentMovement.y = 29.29e3; // orbital speed in meters per second (at minimal distance).
-        earth.currentMovement.z = 0;
-        earth.color = StdDraw.BLUE;
-
-        CelestialBody mercury = new CelestialBody();
-        mercury.name = "Mercury";
-        mercury.mass = 3.301e23;
-        mercury.radius = 2.4397e3;
-        mercury.position = new Vector3();
-        mercury.currentMovement = new Vector3();
+        CelestialBody mercury = new CelestialBody("Mercury", 3.301e23, 2.4397e3, StdDraw.RED,
+                -46.0e9, 0, 0, 0, -47.87e3, 0);
         // arbitrary initialisation: position opposite to the earth with maximal distance.
-        mercury.position.x = -46.0e9; // meters
-        mercury.position.y = 0;
-        mercury.position.z = 0;
         // viewing from z direction movement is counter-clockwise
-        mercury.currentMovement.x = 0;
-        mercury.currentMovement.y = -47.87e3; // meters per second
-        mercury.currentMovement.z = 0;
-        mercury.color = StdDraw.RED;
+        mercury.print();
+
 
         CelestialBody[] bodies = new CelestialBody[] {earth, sun, mercury};
         Vector3[] forceOnBody = new Vector3[bodies.length];
@@ -71,37 +44,24 @@ public class Simulation {
 
         double seconds = 0;
 
-        // simulation loop
+        //simulation loop:
         while(true) {
-
             seconds++; // each iteration computes the movement of the celestial bodies within one second.
 
-            // for each body (with index i): compute the total force exerted on it.
+            //compute the total force exerted on each body in bodies[]
             for (int i = 0; i < bodies.length; i++) {
                 forceOnBody[i] = new Vector3(); // begin with zero
                 for (int j = 0; j < bodies.length; j++) {
-                    if (i == j) continue;
-                    Vector3 forceToAdd = gravitationalForce(bodies[i], bodies[j]);
-                    forceOnBody[i] = plus(forceOnBody[i],forceToAdd);
+                    if (i == j) continue; // skip body itself for comparison
+                    Vector3 forceToAdd = bodies[i].gravitationalForce(bodies[j]);
+                    forceOnBody[i] = forceOnBody[i].plus(forceToAdd);
                 }
             }
             // now forceOnBody[i] holds the force vector exerted on body with index i.
 
-            // for each body (with index i): move it according to the total force exerted on it.
+            //move for each body in bodies[] according to the total force exerted on it
             for (int i = 0; i < bodies.length; i++) {
-                Vector3 newPosition = plus(
-                                            plus(bodies[i].position,
-                                                 times(forceOnBody[i], 1/bodies[i].mass)
-                                                 // F = m*a -> a = F/m
-                                            ),
-                                            bodies[i].currentMovement
-                                      );
-
-                Vector3 newMovement = minus(newPosition,bodies[i].position); // new minus old position.
-
-                bodies[i].position = newPosition;
-                bodies[i].currentMovement = newMovement;
-
+                bodies[i].move(forceOnBody[i]);
             }
 
             // show all movements in StdDraw canvas only every 3 hours (to speed up the simulation)
@@ -111,10 +71,7 @@ public class Simulation {
 
                 // draw new positions
                 for (int i = 0; i < bodies.length; i++) {
-                    StdDraw.setPenColor(bodies[i].color);
-                    StdDraw.filledCircle(bodies[i].position.x, bodies[i].position.y,
-                            1e9*Math.log10(bodies[i].radius));
-                            // use log10 because of large variation of radii.
+                    bodies[i].draw();
                 }
 
                 // show new positions
@@ -126,7 +83,7 @@ public class Simulation {
     }
 
     //TODO: remove static methods below.
-
+    /*
     // Returns a vector representing the gravitational force exerted by 'b2' on 'b1'.
     public static Vector3 gravitationalForce(CelestialBody b1, CelestialBody b2) {
         Vector3 direction = minus(b2.position,b1.position);
@@ -193,6 +150,8 @@ public class Simulation {
         v.y/=length;
         v.z/=length;
     }
+
+    */
 
 }
 

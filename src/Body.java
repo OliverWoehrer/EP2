@@ -7,8 +7,8 @@
 public class Body {
     //TODO: class definition.
     private double mass;                                // mass of body in kg
-    private float[] position = new float[3];            // position in space via XYZ coordinates in meters
-    public float[] velocity = new float[3];             // velocity vector via XYZ coordinates in m/s
+    private float posX, posY, posZ;                     // position in space via XYZ coordinates in meters
+    private float veloX, veloY, veloZ;                  // velocity vector via XYZ coordinates in m/s
 
     /**
      * Setter Method for setting the mass of an object
@@ -25,9 +25,9 @@ public class Body {
      * @param z coordinate in space in meters
      */
     public void setPosition(int x, int y, int z) {
-        position[0] = x;
-        position[1] = y;
-        position[2] = z;
+        posX = x;
+        posY = y;
+        posZ = z;
     }
 
     /**
@@ -37,9 +37,9 @@ public class Body {
      * @param vz velocity in z direction
      */
     public void setVelocity(float vx, float vy, float vz) {
-        velocity[0] = vx;
-        velocity[1] = vy;
-        velocity[2] = vz;
+        veloX = vx;
+        veloY = vy;
+        veloZ = vz;
     }
 
     /**
@@ -47,15 +47,7 @@ public class Body {
      * @return absolute position in z direction
      */
     public float getHeight() {
-        return this.position[2];
-    }
-
-    /**
-     * returns the absolute body position in space [X, Y, Z]
-     * @return reference for [X, Y, Z] array
-     */
-    public float[] getPosition() {
-        return this.position;
+        return this.posZ;
     }
 
     public double gravitationalForce() {
@@ -68,9 +60,9 @@ public class Body {
      * velocity of the body. One movement takes exactly 1 sec to perform.
      */
     public void move() {
-        for (byte i=0; i < 3; i++) {
-            this.position[i] += this.velocity[i];
-        }
+        posX += veloX;
+        posY += veloY;
+        posZ += veloZ;
     }
 
     /**
@@ -84,9 +76,9 @@ public class Body {
      * @param fz acceleration force in z direction
      */
     public void move(double fx, double fy, double fz) {
-        this.velocity[0] += (float)(fx / this.mass);  // add current and new directions together
-        this.velocity[1] += (float)(fy / this.mass);
-        this.velocity[2] += (float)(fz / this.mass);
+        this.veloX += (float)(fx / this.mass);  // add current and new directions together
+        this.veloY += (float)(fy / this.mass);
+        this.veloZ += (float)(fz / this.mass);
         move();                     // perform linear movement
     }
 

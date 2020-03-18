@@ -3,7 +3,11 @@
   <component name="ChangeListManager">
     <list default="true" id="4236b4ff-fbae-4bdc-9c41-0cd9cb98ef1c" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Body.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Body.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CelestialBody.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/CelestialBody.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Simulation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Simulation.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Space.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Space.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Vector3.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Vector3.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -33,8 +37,16 @@
       </list>
     </option>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Application.run Simulation">
     <configuration default="true" type="Application" factoryName="Application">
+      <method v="2">
+        <option name="MakeProject" enabled="true" />
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="run Simulation" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="Simulation" />
+      <module name="Aufgabe" />
       <method v="2">
         <option name="MakeProject" enabled="true" />
         <option name="Make" enabled="true" />
@@ -48,6 +60,10 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <list>
+      <item itemvalue="Application.run Space" />
+      <item itemvalue="Application.run Simulation" />
+    </list>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -81,7 +97,14 @@
       <option name="project" value="LOCAL" />
       <updated>1583962465735</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="hand-in v2.1: added doc comments">
+      <created>1583965992302</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1583965992302</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -101,6 +124,16 @@
     <MESSAGE value="First test commit" />
     <MESSAGE value="first hand in" />
     <MESSAGE value="hand-in v2" />
-    <option name="LAST_COMMIT_MESSAGE" value="hand-in v2" />
+    <MESSAGE value="hand-in v2.1: added doc comments" />
+    <option name="LAST_COMMIT_MESSAGE" value="hand-in v2.1: added doc comments" />
+  </component>
+  <component name="XDebuggerManager">
+    <watches-manager>
+      <configuration name="Application">
+        <watch expression="forceToAdd" language="JAVA" />
+        <watch expression="forceOnBody" language="JAVA" />
+        <watch expression="earth" language="JAVA" />
+      </configuration>
+    </watches-manager>
   </component>
 </project>
