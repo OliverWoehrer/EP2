@@ -12,7 +12,7 @@ public class Body {
 
     /**
      * Setter Method for setting the mass of an object
-     * @param massArg
+     * @param massArg mass of body in kg
      */
     public void setMass(double massArg) {
         this.mass = massArg;

@@ -104,13 +104,16 @@ public class Vector3 {
         this.z /= length;
     }
 
-    // Draws a filled circle with the center at (x,y) coordinates of this vector
-    // in the existing StdDraw canvas. The z-coordinate is not used.
+    /**
+     * Draws a filled circle with the center at (x,y) coordinates of this vector
+     * in the existing StdDraw canvas. The z-coordinate is not used.
+     * @param radius of the dot to be printed
+     * @param color
+     */
     public void drawAsDot(double radius, Color color) {
         //TODO: implement method.
         StdDraw.setPenColor(color);
-        StdDraw.filledCircle(this.x, this.y, 1e9*Math.log10(radius));
-        // use log10 because of large variation of radii.
+        StdDraw.filledCircle(this.x, this.y, radius);
     }
 
     /**
@@ -119,8 +122,7 @@ public class Vector3 {
      */
     public String toString() {
         //TODO: implement method.
-        String temp = String.format("[%.1f, %.1f, %.1f]", x, y, z);
-        return temp;
+        return String.format("[%.1f, %.1f, %.1f]", x, y, z);
     }
 
     /**

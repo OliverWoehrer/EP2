@@ -85,9 +85,8 @@ public class CelestialBody {
      */
     public String toString() {
         //TODO: implement method.
-        String temp = String.format("%s, %s kg, radius: %s m, position: %s m, movement: %s m/s",
+        return String.format("%s, %s kg, radius: %s m, position: %s m, movement: %s m/s",
                 name, mass, radius, position.toString(), currentMovement.toString());
-        return temp;
     }
 
     /**
@@ -107,8 +106,8 @@ public class CelestialBody {
      */
     public void draw() {
         //TODO: implement method.
-        position.drawAsDot(this.radius, this.color);
+        position.drawAsDot(1e9*Math.log10(this.radius), this.color);
+        // use log10 because of large variation of radii.
     }
 
 }
-
