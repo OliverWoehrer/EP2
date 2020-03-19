@@ -10,6 +10,7 @@ public class Simulation {
     public static final double AU = 150e9;
 
     // all quantities are based on units of kilogram respectively second and meter.
+    private static final int CanvasSize = 700;
 
     // The main simulation method using instances of other classes.
     public static void main(String[] args) {
@@ -19,17 +20,21 @@ public class Simulation {
 
         //Initialize Body Objects:
         CelestialBody sun = new CelestialBody("Sol", 1.989e30, 696340e3, StdDraw.YELLOW);
+
+        CelestialBody mercury = new CelestialBody("Mercury", 3.301e23, 2439.7e3, StdDraw.GRAY,
+                -46.0e9, 0, 0, 0, -47.87e3, 0);
+        CelestialBody venus = new CelestialBody("Venus", 4.869e24, 6051.8e3, StdDraw.ORANGE,
+                0, 108e9, 0, -35.02e3, 0, 0);
         CelestialBody earth = new CelestialBody("Earth", 5.972e24, 6371e3, StdDraw.BLUE,
                 148e9, 0, 0, 0, 29.29e3, 0);
-            // minimal distance to sun: 148e9 meters
-            // orbital speed at minimal distance: 29.29e3 m/s
-        CelestialBody mercury = new CelestialBody("Mercury", 3.301e23, 2.4397e3, StdDraw.RED,
-                -46.0e9, 0, 0, 0, -47.87e3, 0);
-            // arbitrary initialisation: position opposite to the earth with maximal distance.
-            // viewing from z direction movement is counter-clockwise
+        CelestialBody mars = new CelestialBody("Mars", 6.419e23, 3396.2e3, StdDraw.RED,
+                0, -228e9, 0,24.13e3, 0, 0);
+        CelestialBody moon = new CelestialBody("Moon", 7.349e22, 1738e3, StdDraw.WHITE,
+                148e9+384.4e6, 0, 0, 0, 29.29e3+1.023e3, 0);
+
 
         //Gather all bodies in Array:
-        CelestialBody[] bodies = new CelestialBody[] {earth, sun, mercury};
+        CelestialBody[] bodies = new CelestialBody[] {sun, mercury, venus, earth, mars, moon};
         Vector3[] forceOnBody = new Vector3[bodies.length];
         System.out.println("Initial object values:");
         for (CelestialBody body: bodies) {
@@ -37,10 +42,9 @@ public class Simulation {
         }
 
         //Setup Canvas:
-        StdDraw.setCanvasSize(500, 500);
-        StdDraw.setXscale(-2*AU,2*AU);
-        StdDraw.setYscale(-2*AU,2*AU);
-        double pixelWidth = 4*AU/500;
+        StdDraw.setCanvasSize(CanvasSize, CanvasSize);
+        StdDraw.setScale(-2*AU,2*AU);
+        double pixelWidth = 60*AU/CanvasSize;
         StdDraw.enableDoubleBuffering();
         StdDraw.clear(StdDraw.BLACK);
 
@@ -67,8 +71,8 @@ public class Simulation {
             }
 
             //Show all movements in StdDraw canvas only every 3 hours (to speed up the simulation)
-            if (seconds%(3*3600) == 0) {
-                StdDraw.clear(StdDraw.BLACK); // exclude if you want to draw orbits
+            if (seconds%(1*3600) == 0) {
+                //StdDraw.clear(StdDraw.BLACK); // exclude if you want to draw orbits
                 for (CelestialBody body: bodies) { // draw new positions
                     body.draw();
                 }
