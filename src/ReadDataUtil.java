@@ -9,7 +9,6 @@ public class ReadDataUtil {
 
         // TODO: implement suitable constructor in class 'CelestialBody' and include block:
         // Parameters: name, mass, radius, position, velocity, color
-        /*
         sun = new CelestialBody("Sol", 1.989e30, 696340e3, new Vector3(0,0,0),
                 new Vector3(0,0,0), StdDraw.YELLOW);
 
@@ -24,7 +23,6 @@ public class ReadDataUtil {
 
         mars = new CelestialBody("Mars", 0.641712e24, 3389.5e3, new Vector3(0,0,0),
                 new Vector3(0,0,0), StdDraw.RED);
-        */
 
         CelestialBody[] planets = new CelestialBody[] {earth, mercury, venus, mars};
         CelestialSystem solarsystem = ReadDataUtil.readConfiguration("Solarsystem", planets, day);
@@ -32,9 +30,15 @@ public class ReadDataUtil {
         return solarsystem;
     }
 
-    // Reads the positions of the specified bodies on the specified day in the year 2020
-    // from the file 'Configuration.csv' and returns a linked list of the celestial bodies,
-    // where position and current velocity of each body is set accordingly.
+    /**
+     * Reads the positions of the specified bodies on the specified day in the year 2020
+     * from the file 'Configuration.csv' and returns a linked list of the celestial bodies,
+     * where position and current velocity of each body is set accordingly.
+     * @param name name label of the linked list
+     * @param bodies bodies for which the configurations need to be read
+     * @param day date on which the configurations should be read (=day of the year 2020)
+     * @return the configurations for all bodies of the given day
+     */
     public static CelestialSystem readConfiguration(String name, CelestialBody[] bodies, int day) {
 
         CelestialSystem result = new CelestialSystem(name);
@@ -52,7 +56,6 @@ public class ReadDataUtil {
                 //TODO: implement getName() in 'CelestialBody'.
                 //TODO: implement missing constructor in class 'CelestialBody'.
                 //TODO: include following block.
-                /*
                 if (fields[0].equals(body.getName()) && Integer.parseInt(fields[2]) == day) {
                     int j = 0;
                     while (velocity.length() < 1e9) {
@@ -79,10 +82,8 @@ public class ReadDataUtil {
                     velocity = velocity.times(1d / (2 * j * 3600 * 24));
                     result.add(new CelestialBody(body, position, velocity));
                 }
-                */
             }
         }
-
         return result;
     }
 

@@ -1,20 +1,17 @@
-import org.w3c.dom.ls.LSOutput;
-
 import java.awt.*;
 
 // This class represents celestial bodies like stars, planets, asteroids, etc..
 public class CelestialBody {
-
     //TODO: change modifiers.
+    //Object Variables:
     private String name;
     private double mass;
     private double radius;
     private Vector3 position; // position of the center.
-    private Vector3 currentMovement; // velocity vector of current body speed
+    private Vector3 velocity; // velocity vector of current body speed
     private Color color; // for drawing the body.
 
     //TODO: define constructor.
-
     //Constructors:
     public CelestialBody() {}
 
@@ -24,18 +21,35 @@ public class CelestialBody {
         this.radius = radius;
         this.color = color;
         this.position = new Vector3();
-        this.currentMovement = new Vector3();
+        this.velocity = new Vector3();
     }
 
-    public CelestialBody(String name, double mass, double radius, Color color,
-                         double posX, double posY, double posZ,
+    public CelestialBody(String name, double mass, double radius, Color color, double posX, double posY, double posZ,
                          double veloX, double veloY, double veloZ) {
         this.name = name;
         this.mass = mass;
         this.radius = radius;
         this.color = color;
         this.position = new Vector3(posX, posY, posZ);
-        this.currentMovement = new Vector3(veloX, veloY, veloZ);
+        this.velocity = new Vector3(veloX, veloY, veloZ);
+    }
+
+    public CelestialBody(String name, double mass, double radius, Vector3 position, Vector3 velocity, Color color) {
+        this.name = name;
+        this.mass = mass;
+        this.radius = radius;
+        this.position = position; // set position directly as vector
+        this.velocity = velocity; // set velocity vector to given value
+        this.color = color;
+    }
+
+    public CelestialBody(CelestialBody body, Vector3 position, Vector3 velocity) {
+        this.name = body.name; // copy parameters from body
+        this.mass = body.mass;
+        this.radius = body.radius;
+        this.position = position; // set position directly as vector
+        this.velocity = velocity; // set velocity vector to given value
+        this.color = body.color;
     }
 
     //Object Methods:
@@ -45,7 +59,7 @@ public class CelestialBody {
      * @param body body for distance to measured to
      * @return absolute positive distance between celestial bodies
      */
-    public double distanceTo(CelestialBody body) {
+    private double distanceTo(CelestialBody body) {
         //TODO: implement method.
         return this.position.distanceTo(body.position);
     }
@@ -73,8 +87,8 @@ public class CelestialBody {
     public void move(Vector3 force) {
         //TODO: implement method.
         Vector3 currentAcceleration = force.times(1/mass); // F = m*a --> a = F/m
-        currentMovement = currentMovement.plus(currentAcceleration); // change velocity for given acceleration
-        position = position.plus(currentMovement); // change position of body due to new velocity
+        velocity = velocity.plus(currentAcceleration); // change velocity for given acceleration
+        position = position.plus(velocity); // change position of body due to new velocity
     }
 
     /**
@@ -86,7 +100,7 @@ public class CelestialBody {
     public String toString() {
         //TODO: implement method.
         return String.format("%s, %s kg, radius: %s m, position: %s m, movement: %s m/s",
-                name, mass, radius, position.toString(), currentMovement.toString());
+                name, mass, radius, position.toString(), velocity.toString());
     }
 
     /**
@@ -107,7 +121,15 @@ public class CelestialBody {
     public void draw() {
         //TODO: implement method.
         position.drawAsDot(1e9*Math.log10(this.radius), this.color);
-        // use log10 because of large variation of radii.
+        // use log10 because of large variation of radius.
+    }
+
+    /**
+     * passes the name of the celestial body
+     * @return name of body as string
+     */
+    public String getName() {
+        return this.name;
     }
 
 }
