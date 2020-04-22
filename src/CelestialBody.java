@@ -73,7 +73,8 @@ public class CelestialBody {
         //TODO: implement method.
         Vector3 direction = body.position.minus(this.position);
         double r = this.distanceTo(body);  // get distance between celestial bodies
-        double force = Simulation.G*this.mass*body.mass/(r*r); // Fg = (G*m1*m2) / r^2 [Newton]
+        if (r == 0) return new Vector3();
+        double force = Simulation.G * this.mass * body.mass / (r * r); // Fg = (G*m1*m2) / r^2 [Newton]
         direction.normalize(); // get norm vector in direction of Fg
         return direction.times(force);
     }
@@ -132,4 +133,10 @@ public class CelestialBody {
         return this.name;
     }
 
+    public double getX() {
+        return this.position.getX();
+    }
+    public double getY() {
+        return this.position.getY();
+    }
 }

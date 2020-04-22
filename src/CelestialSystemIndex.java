@@ -7,7 +7,7 @@
 public class CelestialSystemIndex {
     //TODO: Define variables and constructor.
     //Object Variables:
-    private MyBinaryTreeNode binaryTree = new MyBinaryTreeNode();
+    private MyTreeNode root = new MyTreeNode();
     private int numberOfSystems = 0;
 
     /**
@@ -29,15 +29,20 @@ public class CelestialSystemIndex {
         //Check for duplicate body names:
         boolean ret = false;
         for (int i = 0; i < system.size(); i++) {
-            ret |= binaryTree.contains(system.get(i).getName());
+            if (root.contains(system.get(i).getName())) {
+                System.out.println("Duplicate body name found: "+system.get(i).getName());
+                return false;  // duplicate found, do not add system into search tree
+            }
         }
-        if (ret) { return false; } // --> duplicate found, do not add system into search tree
+
+
 
         //Add into binary search tree:
         numberOfSystems++;
         for (int i = 0; i < system.size(); i++) {
-            binaryTree.add(system.get(i), system); // key=body name, value=celestial system
+            root.add(system.get(i), system); // key=body name, value=celestial system
         }
+        System.out.println("Added to Binary Search Tree ["+system.toString()+"]");
         return true;
     }
 
@@ -51,8 +56,8 @@ public class CelestialSystemIndex {
      */
     public CelestialSystem get(String name) {
         //TODO: implement method.
-        if (binaryTree.contains(name)) {
-            return binaryTree.getSystem(name);
+        if (root.contains(name)) {
+            return root.getSystem(name);
         } else return null; // no matching body found
     }
 
@@ -62,8 +67,8 @@ public class CelestialSystemIndex {
      */
     public int numberOfBodies() {
         //TODO: implement method.
-        if (binaryTree.getBodyName() != null) {
-            return binaryTree.numberOfBodies();
+        if (root.getBodyName() != null) {
+            return root.numberOfBodies();
         } else {
             return 0;
         }
@@ -79,106 +84,101 @@ public class CelestialSystemIndex {
     }
 
     //TODO: Define additional class(es) implementing a binary tree (either here or outside class).
+    private class MyTreeNode {
+        //Object Variables:
+        private String bodyName; // name of celestial body
+        private CelestialSystem system; // reference of the celestial system holding the body
+        private MyTreeNode left, right; // references of the children tree nodes
 
+        //Constructors:
 
-}
+        public MyTreeNode() {}
 
-class MyBinaryTreeNode {
-    //Object Variables:
-    private String bodyName; // name of celestial body
-    private CelestialSystem system; // reference of the celestial system holding the body
-    private MyBinaryTreeNode left, right; // references of the children tree nodes
-
-    //Constructors:
-
-    public MyBinaryTreeNode() {}
-
-    private MyBinaryTreeNode(CelestialBody body, CelestialSystem system) {
-        this.bodyName = body.getName();
-        this.system = system;
-    }
-
-    //Object Methods:
-
-    /**
-     * Checks if a body with the same as the given one is already in binary search tree
-     * @param bodyName name of body checked for
-     * @return true if tree already contains body with same name
-     */
-    public boolean contains(String bodyName) {
-        boolean ret;
-        if (this.bodyName != null) {
-            int cmp = bodyName.compareTo(this.bodyName);
-            if (cmp == 0) {
-                return true;
-            } else if (cmp < 0 && left != null) {
-                ret = left.contains(bodyName);
-                return ret;
-            } else if (cmp > 0 && right != null) {
-                ret = right.contains(bodyName);
-                return ret;
-            } else {
-                return false;
-            }
-        } else { // empty tree
-            return false;
-        }
-    }
-
-    /**
-     * Inserts the celestial system according to the key body name
-     * @param body body name
-     * @param system celestial system containing the given body
-     */
-    public void add(CelestialBody body, CelestialSystem system) {
-        if (this.bodyName != null) {
-            if (body.getName().compareTo(this.bodyName) < 0) {
-                if (left != null) {
-                    left.add(body, system);
-                } else left = new MyBinaryTreeNode(body, system);
-            } else {
-                if (right != null) {
-                    right.add(body, system);
-                } else right = new MyBinaryTreeNode(body, system);
-            }
-        } else {
+        private MyTreeNode(CelestialBody body, CelestialSystem system) {
             this.bodyName = body.getName();
             this.system = system;
         }
-    }
 
-    /**
-     * Returns the celestial system holding the body with the given name
-     * @param bodyName name of body to look for
-     * @return reference of celestial system containing the body, null otherwise
-     */
-    public CelestialSystem getSystem(String bodyName) {
-        int cmp = bodyName.compareTo(this.bodyName);
-        if (cmp < 0) {
-            return left.getSystem(bodyName);
-        } else if (cmp > 0) {
-            return right.getSystem(bodyName);
-        } else { // body name found
-            return this.system;
+        //Object Methods:
+
+        /**
+         * Inserts the celestial system according to the key body name
+         * @param body body name
+         * @param system celestial system containing the given body
+         */
+        public void add(CelestialBody body, CelestialSystem system) {
+            if (this.bodyName != null) {
+                if (body.getName().compareTo(this.bodyName) < 0) {
+                    if (left != null) {
+                        left.add(body, system);
+                    } else left = new MyTreeNode(body, system);
+                } else {
+                    if (right != null) {
+                        right.add(body, system);
+                    } else right = new MyTreeNode(body, system);
+                }
+            } else {
+                this.bodyName = body.getName();
+                this.system = system;
+            }
+        }
+
+        /**
+         * Returns the celestial system holding the body with the given name
+         * @param bodyName name of body to look for
+         * @return reference of celestial system containing the body, null otherwise
+         */
+        public CelestialSystem getSystem(String bodyName) {
+            int cmp = bodyName.compareTo(this.bodyName);
+            if (cmp < 0) {
+                return left.getSystem(bodyName);
+            } else if (cmp > 0) {
+                return right.getSystem(bodyName);
+            } else { // body name found
+                return this.system;
+            }
+        }
+
+        /**
+         * Checks if a body with the same as the given one is already in binary search tree
+         * @param bodyName name of body checked for
+         * @return true if tree already contains body with same name
+         */
+        public boolean contains(String bodyName) {
+            if (this.bodyName != null) { // internal tree node
+                int cmp = bodyName.compareTo(this.bodyName);
+                if (cmp == 0) {
+                    return true; // found duplicate in 'this' internal node
+                } else if (cmp < 0 && left != null) {
+                    return left.contains(bodyName);
+                } else if (cmp > 0 && right != null) {
+                    return right.contains(bodyName);
+                } else {
+                    return false;
+                }
+            } else { // empty tree
+                return false;
+            }
+        }
+
+        /**
+         * Returns the number of bodies held by the node itself and both children subtrees combined
+         * @return number of bodies
+         */
+        public int numberOfBodies() {
+            int totalNumberOfBodies = 1;
+            if (left != null) { totalNumberOfBodies += left.numberOfBodies(); }
+            if (right != null) { totalNumberOfBodies += right.numberOfBodies(); }
+            return totalNumberOfBodies;
+        }
+
+        /**
+         * Getter Method for search key body name
+         * @return name of the celestial body
+         */
+        public String getBodyName() {
+            return this.bodyName;
         }
     }
-
-    /**
-     * Returns the number of bodies held by the node itself and both children subtrees combined
-     * @return number of bodies
-     */
-    public int numberOfBodies() {
-        int totalNumberOfBodies = 1;
-        if (left != null) { totalNumberOfBodies += left.numberOfBodies(); }
-        if (right != null) { totalNumberOfBodies += right.numberOfBodies(); }
-        return totalNumberOfBodies;
-    }
-
-    /**
-     * Getter Method for search key body name
-     * @return name of the celestial body
-     */
-    public String getBodyName() {
-        return this.bodyName;
-    }
 }
+

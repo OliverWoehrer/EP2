@@ -108,7 +108,7 @@ public class Vector3 {
      * Draws a filled circle with the center at (x,y) coordinates of this vector
      * in the existing StdDraw canvas. The z-coordinate is not used.
      * @param radius of the dot to be printed
-     * @param color
+     * @param color color
      */
     public void drawAsDot(double radius, Color color) {
         //TODO: implement method.
@@ -132,6 +132,13 @@ public class Vector3 {
     public void print() {
         //TODO: implement method.
         System.out.print(this.toString());
+    }
+
+    public double getX() {
+        return this.x;
+    }
+    public double getY() {
+        return this.y;
     }
 }
 

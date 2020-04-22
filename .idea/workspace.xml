@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="4236b4ff-fbae-4bdc-9c41-0cd9cb98ef1c" name="Default Changelist" comment="v4.0: first release">
+    <list default="true" id="4236b4ff-fbae-4bdc-9c41-0cd9cb98ef1c" name="Default Changelist" comment="v4.0: changed CelestialSystemIndex.add">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CelestialBody.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/CelestialBody.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/CelestialSystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/CelestialSystem.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/CelestialSystemIndex.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/CelestialSystemIndex.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ComplexCelestialSystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ComplexCelestialSystem.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Simulation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Simulation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Vector3.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Vector3.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -138,7 +141,14 @@
       <option name="project" value="LOCAL" />
       <updated>1585821768732</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="v4.0: first release">
+      <created>1587416170222</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1587416170222</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -175,30 +185,38 @@
     <MESSAGE value="v3.0: first release of AB3" />
     <MESSAGE value="v3.1: changed calculations in main" />
     <MESSAGE value="v4.0: first release" />
-    <option name="LAST_COMMIT_MESSAGE" value="v4.0: first release" />
+    <MESSAGE value="v4.0: changed CelestialSystemIndex.add" />
+    <option name="LAST_COMMIT_MESSAGE" value="v4.0: changed CelestialSystemIndex.add" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/CelestialSystemIndex.java</url>
-          <line>108</line>
-          <option name="timeStamp" value="7" />
+          <url>file://$PROJECT_DIR$/src/Simulation.java</url>
+          <line>121</line>
+          <option name="timeStamp" value="23" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/Simulation.java</url>
-          <line>55</line>
-          <option name="timeStamp" value="8" />
+          <line>75</line>
+          <option name="timeStamp" value="30" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
     <watches-manager>
       <configuration name="Application">
-        <watch expression="forceToAdd" language="JAVA" />
-        <watch expression="forceOnBody" language="JAVA" />
-        <watch expression="earth" language="JAVA" />
-        <watch expression="forceToAdd" language="JAVA" />
+        <watch expression="spaceRange" language="JAVA" />
+        <watch expression="offsetX" language="JAVA" />
+        <watch expression="offsetY" language="JAVA" />
+        <watch expression="focusedBody" />
+        <watch expression="forceOnBody" />
+        <watch expression="bodyList" />
+        <watch expression="test1" language="JAVA" />
+        <watch expression="test2" language="JAVA" />
       </configuration>
     </watches-manager>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/Arbeitsblatt$run_Simulation.ic" NAME="run Simulation Coverage Results" MODIFIED="1587582162692" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
 </project>
