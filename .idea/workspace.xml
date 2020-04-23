@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="4236b4ff-fbae-4bdc-9c41-0cd9cb98ef1c" name="Default Changelist" comment="v4.0: changed CelestialSystemIndex.add">
+    <list default="true" id="4236b4ff-fbae-4bdc-9c41-0cd9cb98ef1c" name="Default Changelist" comment="v4.2: changed added test cases">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CelestialBody.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/CelestialBody.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/CelestialSystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/CelestialSystem.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/CelestialSystemIndex.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/CelestialSystemIndex.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ComplexCelestialSystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ComplexCelestialSystem.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Simulation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Simulation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Vector3.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Vector3.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -21,6 +19,7 @@
   </component>
   <component name="ProjectId" id="1YlLHhEw6zdKLw87oNwgAJKP91G" />
   <component name="PropertiesComponent">
+    <property name="TODO_SCOPE" value="All Places" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.116027534" />
@@ -148,7 +147,14 @@
       <option name="project" value="LOCAL" />
       <updated>1587416170222</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="v4.0: changed CelestialSystemIndex.add">
+      <created>1587590164459</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1587590164459</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -186,19 +192,15 @@
     <MESSAGE value="v3.1: changed calculations in main" />
     <MESSAGE value="v4.0: first release" />
     <MESSAGE value="v4.0: changed CelestialSystemIndex.add" />
-    <option name="LAST_COMMIT_MESSAGE" value="v4.0: changed CelestialSystemIndex.add" />
+    <MESSAGE value="v4.2: changed added test cases" />
+    <option name="LAST_COMMIT_MESSAGE" value="v4.2: changed added test cases" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/Simulation.java</url>
-          <line>121</line>
-          <option name="timeStamp" value="23" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/Simulation.java</url>
-          <line>75</line>
+          <line>73</line>
           <option name="timeStamp" value="30" />
         </line-breakpoint>
       </breakpoints>

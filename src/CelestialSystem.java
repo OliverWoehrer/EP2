@@ -52,28 +52,32 @@ public class CelestialSystem {
      * there is no body in the list with the same name as that of 'body'.
      * Shifts the element currently at that position (if any) and any subsequent elements to
      * the right (adds one to their indices). The first element of the list has the index 0.
-     * @param i index the body should be added at
+     * @param i index the body should be added at. The first valid index is 0, the maximum index is size()-1
      * @param body body to be added to list
      * @return 'true' if the list was changed, 'false' otherwise.
      */
     public boolean add(int i, CelestialBody body) {
         //TODO: implement method.
-        if (this.get(body.getName()) == null && 0 < i && i < this.size()) { // no duplicate found, valid index
+        if (!this.contains(body.getName()) && 0 <= i && i <= this.size()) { // no duplicate found, valid index
             MyListNode item = head;
             while (item != null && i > 0) { // traverse till index i:
-                item = item.next();
                 i--;
+                item = item.next();
             }
 
             //Check if first element or empty list:
             MyListNode newItem = new MyListNode(body);
-            if (item == null) { // empty list
+            if (head == null) { // empty list
                 head = last = newItem;
             } else if (item == head) { // insert at start of list
                 newItem.setNext(item.next());
                 newItem.setPrev(item.prev());
                 newItem.setNext(head);
                 head = newItem;
+            } else if (item == null) { // insert at end of list
+                last.setNext(newItem);
+                newItem.setPrev(last);
+                last = newItem;
             } else { // insert body anywhere
                 newItem.setNext(item);
                 newItem.setPrev(item.prev());
@@ -97,7 +101,7 @@ public class CelestialSystem {
             while (item != null && !item.body.getName().equals(bodyName)) {
                 item = item.next;
             }
-            return item == null ? false : true; // traversed entire list if null: no duplicates found
+            return item != null; // traversed entire list if null: no duplicates found
         } else { // empty list
             return false;
         }
@@ -201,9 +205,11 @@ public class CelestialSystem {
      */
     public CelestialSystem reverse() {
         //TODO: implement method.
-        CelestialSystem reversedSystem = new CelestialSystem("reversed"+this.nameOfSystem);
-        for (int i = this.size()-1; i > 0; i--) {
-            reversedSystem.add(this.get(i));
+        CelestialSystem reversedSystem = new CelestialSystem("reversed "+this.nameOfSystem);
+        MyListNode item = head;
+        while (item != null) { // traverse original list
+            reversedSystem.add(0, item.body); // add at start of reversed list
+            item = item.next;
         }
         return reversedSystem;
     }

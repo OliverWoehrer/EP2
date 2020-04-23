@@ -1,6 +1,5 @@
 public class ComplexCelestialSystem {
     //Object Variables:
-    //TODO: Define variables.
     private String name;
     private MyListNode head, last;
 
@@ -11,7 +10,6 @@ public class ComplexCelestialSystem {
      * @param name name of the complex list
      */
     public ComplexCelestialSystem(String name) {
-        //TODO: implement constructor.
         this.name = name; // set name of complex list
         head = last = null;
     }
@@ -27,35 +25,25 @@ public class ComplexCelestialSystem {
      * @return 'true' if the list was changed as a result of the call and 'false' otherwise
      */
     public boolean add(CelestialSystem subsystem) {
-        //TODO: implement method.
         if (head != null ) { // at least one subsystem in list
             //Check for duplicate names:
             MyListNode item = head;
             while (item != null) {
-                if (item.system.getName().equals(subsystem.getName())) { // check duplicate subsystem names
-                    System.out.println("Duplicate subsystem name found [" +
-                            subsystem.toString()+"]");
-                    return false; // duplicate subsystem found
-                }
+                if (item.system.getName().equals(subsystem.getName())) return false; // duplicate subsystem found
                 for (int i = 0; i < subsystem.size(); i++) { // iterate every body
-                    if (item.system.contains(subsystem.get(i).getName())) {
-                        System.out.println("Duplicate body name found: "+subsystem.get(i).getName());
-                        return false; // duplicate body found
-                    }
-                    else continue;
+                    if (item.system.contains(subsystem.get(i).getName())) return false; // duplicate body found
                 }
                 item = item.next;
             }
+            if (subsystem.size() == 0) return false; // do not add empty system
 
             //If not already returned, no duplicate names where found: add subsystem to list
             MyListNode newItem = new MyListNode(subsystem);
             last.setNext(newItem);
             last = newItem;
-            System.out.println("Added to Complex Linked List ["+subsystem.toString()+"]");
             return true; // entry added successfully
         } else { // empty list
             head = last = new MyListNode(subsystem);
-            System.out.println("Added to Complex Linked List ["+subsystem.toString()+"]");
             return true;
         }
     }
@@ -73,7 +61,7 @@ public class ComplexCelestialSystem {
                 if (item.system.getName().equals(BodyName)) return true;
                 item = item.next;
             }
-            return item == null ? false : true; // traversed entire list if null: no duplicates found
+            return item != null; // traversed entire list if null: no duplicates found
         } else { // empty list
             return false;
         }
@@ -87,7 +75,6 @@ public class ComplexCelestialSystem {
      * @return reference of celestial system searched for, otherwise null-reference
      */
     public CelestialSystem get(String name) {
-        //TODO: implement method.
         MyListNode item = head;
         while (item != null && !item.system().getName().equals(name)) {
             CelestialBody tempBody = item.system().get(name); // search for body in subsystem
@@ -121,11 +108,10 @@ public class ComplexCelestialSystem {
      * @return length of linked list as integer
      */
     public int size() {
-        //TODO: implement method.
         int size = 0;
         MyListNode item = head;
         while (item != null) { // traverse through list once
-            size++; // <-- count number of links
+            size += item.system.size();
             item = item.next;
         }
         return size;

@@ -27,22 +27,16 @@ public class CelestialSystemIndex {
     public boolean add(CelestialSystem system) {
         //TODO: implement method.
         //Check for duplicate body names:
-        boolean ret = false;
+        if (system.size() == 0) return false; // do not add empty system
         for (int i = 0; i < system.size(); i++) {
-            if (root.contains(system.get(i).getName())) {
-                System.out.println("Duplicate body name found: "+system.get(i).getName());
-                return false;  // duplicate found, do not add system into search tree
-            }
+            if (root.contains(system.get(i).getName())) return false;  // duplicate found
         }
-
-
 
         //Add into binary search tree:
         numberOfSystems++;
         for (int i = 0; i < system.size(); i++) {
             root.add(system.get(i), system); // key=body name, value=celestial system
         }
-        System.out.println("Added to Binary Search Tree ["+system.toString()+"]");
         return true;
     }
 
@@ -80,6 +74,11 @@ public class CelestialSystemIndex {
      */
     public int numberOfSystems() {
         //TODO: implement method.
+        /*if (root.bodyName != null) { // non-empty tree
+            return 0;
+        } else { // empty tree
+            return 0;
+        }*/
         return this.numberOfSystems;
     }
 
