@@ -1,0 +1,1 @@
+// TODO: define class according to 'Aufgabenblatt5'.
