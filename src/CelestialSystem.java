@@ -1,13 +1,13 @@
+import java.util.Objects;
+
 /**
  * Implements a linked list of CelestialBody objects. The object reference itself is held by a list node
  * besides a reference to the next list item. Celestial bodies with duplicate names inside this list,
  * are not allowed. Duplicates are prevented on adding new bodies.
  */
 public class CelestialSystem {
-
-    //TODO: Define variables.
     private String nameOfSystem;
-    private MyListNode head, last;
+    private MyCSListNode head, tail;
 
     //Constructors:
 
@@ -18,7 +18,7 @@ public class CelestialSystem {
     public CelestialSystem(String name) {
         //TODO: implement constructor.
         this.nameOfSystem = name; // set name of whole system
-        head = last = null;
+        head = tail = null;
     }
 
     //Object Methods:
@@ -30,20 +30,11 @@ public class CelestialSystem {
      * @return 'true' if the list was changed as a result of the call and 'false' otherwise
      */
     public boolean add(CelestialBody body) {
-        //TODO: implement method.
-        CelestialBody entry = this.get(body.getName());
-        if (entry == null) { // no duplicate found
-            MyListNode newItem = new MyListNode(body);
-            if (head == null) { // empty list -> add first item
-                head = last = newItem;
-            } else { // add item at end of list
-                last.setNext(newItem);
-                newItem.setPrev(last);
-                last = newItem;
-            }
-            return true; // <-- entry added successfully
+        if (head == null) { // empty list
+            head = tail = new MyCSListNode(body, null, null);
+            return true;
         } else {
-            return false; // <-- duplicate body found
+            return (tail = head.add(body)) != null;
         }
     }
 
@@ -57,37 +48,17 @@ public class CelestialSystem {
      * @return 'true' if the list was changed, 'false' otherwise.
      */
     public boolean add(int i, CelestialBody body) {
-        //TODO: implement method.
-        if (!this.contains(body.getName()) && 0 <= i && i <= this.size()) { // no duplicate found, valid index
-            MyListNode item = head;
-            while (item != null && i > 0) { // traverse till index i:
-                i--;
-                item = item.next();
-            }
-
-            //Check if first element or empty list:
-            MyListNode newItem = new MyListNode(body);
-            if (head == null) { // empty list
-                head = last = newItem;
-            } else if (item == head) { // insert at start of list
-                newItem.setNext(item.next());
-                newItem.setPrev(item.prev());
-                newItem.setNext(head);
-                head = newItem;
-            } else if (item == null) { // insert at end of list
-                last.setNext(newItem);
-                newItem.setPrev(last);
-                last = newItem;
-            } else { // insert body anywhere
-                newItem.setNext(item);
-                newItem.setPrev(item.prev());
-                item.setPrev(newItem);
-                item.prev().setNext(newItem);
-            }
-            return true; // body added successfully
-        } else { // body already in list, invalid index
-            return false; // body not added
+        if (this.get(body.getName()) != null) {
+            return false; // duplicate found
         }
+        if (i == 0) { // add at beginning of list
+            head = new MyCSListNode(body, head, null);
+            return true;
+        }
+        if (head == null) { // invalid index, empty list
+            return false;
+        }
+        return head.add(i, body);
     }
 
     /**
@@ -96,38 +67,24 @@ public class CelestialSystem {
      * @return true if celestial system contains body with same name, false otherwise
      */
     public boolean contains(String bodyName) {
-        if (head != null) { // non-empty list
-            MyListNode item = head;
-            while (item != null && !item.body.getName().equals(bodyName)) {
-                item = item.next;
-            }
-            return item != null; // traversed entire list if null: no duplicates found
-        } else { // empty list
+        if (head == null) {
             return false;
+        } else {
+            return get(bodyName) != null;
         }
     }
 
     /**
-     * Removes the body with the index 'i'. The body that was first added to the list has the
-     * index 0, the body that was most recently added to the list has the index size()-1.
-     * @param i index of body to be removed from list
+     * Returns a new list that contains the same elements as 'this' list in reverse order.
+     * The list 'this' is not changed and bodies are not duplicated (shallow copy).
+     * @return reference of new reversed list
      */
-    public void remove(int i) {
-        MyListNode item = head;
-        while (item != null && i > 0) {
-            item = item.next();
-            i--;
+    public CelestialSystem reverse() {
+        CelestialSystem reversedSystem = new CelestialSystem("reversed "+this.nameOfSystem);
+        if (tail !=  null) { // non-empty list
+            reversedSystem.head = this.tail.reverse();
         }
-        if (item == head) { // remove first element
-            head = item.next();
-            head.setPrev(null);
-        } else if (item == last) { // remove last element
-            last = item.prev();
-            last.setNext(null);
-        } else { // remove any element
-            item.next().setPrev(item.prev());
-            item.prev().setNext(item.next());
-        }
+        return reversedSystem;
     }
 
     /**
@@ -137,13 +94,10 @@ public class CelestialSystem {
      * @return body at index i, otherwise null-reference
      */
     public CelestialBody get(int i) {
-        //TODO: implement method.
-        MyListNode item = head;
-        while (item != null && i > 0) { // traverse through list until index i
-            item = item.next();
-            i--;
+        if (head == null) {
+            return null;
         }
-        return item == null? null : item.body();
+        return head.get(i);
     }
 
     /**
@@ -152,12 +106,10 @@ public class CelestialSystem {
      * @return reference of body with given name, otherwise null-reference
      */
     public CelestialBody get(String name) {
-        //TODO: implement method.
-        MyListNode item = head;
-        while (item != null && !item.body().getName().equals(name)) {
-            item = item.next();
+        if (head == null) {
+            return null;
         }
-        return item == null ? null : item.body();
+        return head.get(name);
     }
 
     /**
@@ -165,14 +117,11 @@ public class CelestialSystem {
      * @return length of linked list as integer
      */
     public int size() {
-        //TODO: implement method.
-        int size = 0;
-        MyListNode item = head;
-        while (item != null) { // traverse through list once
-            size++; // <-- count number of links
-            item = item.next();
+        if (head == null) {
+            return 0;
+        } else {
+            return head.size();
         }
-        return size;
     }
 
     /**
@@ -187,90 +136,161 @@ public class CelestialSystem {
      * Returns a readable representation with the name of the system and all bodies in respective order of the list.
      * @return formatted string with names of all bodies
      */
+    @Override
     public String toString() {
-        //TODO: implement method.
-        String ret = this.nameOfSystem + ": ";
-        MyListNode item = head;
-        while (item != null) {
-            ret = ret + item.body().getName() + ", ";
-            item = item.next();
+        String ret = "["+this.nameOfSystem+"]: ";
+        if (head == null) {
+            return ret + "empty.";
+        } else {
+            return ret + head.toString() + ".";
         }
-        return ret;
     }
 
     /**
-     * Returns a new list that contains the same elements as this list in reverse order.
-     * The list 'this' is not changed and bodies are not duplicated (shallow copy).
-     * @return reference of new reversed list
+     * Two CelestialSystems are equals, when they contain the same bodies
+     * @param o Object to be check with 'this' (CelestialSystem)
+     * @return true, if both systems are the same according to the description
      */
-    public CelestialSystem reverse() {
-        //TODO: implement method.
-        CelestialSystem reversedSystem = new CelestialSystem("reversed "+this.nameOfSystem);
-        MyListNode item = head;
-        while (item != null) { // traverse original list
-            reversedSystem.add(0, item.body); // add at start of reversed list
-            item = item.next;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CelestialSystem cs = (CelestialSystem) o;
+        for (int i = 0; i < this.size(); i++) {
+            //if (!cs.get(this.get(i).getName()).equals(this.get(i))) return false;
+            if(!cs.contains(this.get(i).getName())) {
+                return false;
+            }
         }
-        return reversedSystem;
+        return true;
     }
 
-    private class MyListNode {
-        //Object Variables:
-        private CelestialBody body;
-        private MyListNode next, prev;
-
-        //Constructors:
-
-        public MyListNode() {
-            next = null;
+    @Override
+    public int hashCode() {
+        int ret = 0, bias = 27 * this.size(); // create bias without considering order of list
+        for (int i = 0; i < this.size(); i++) {
+            ret += bias * this.get(i).hashCode();
         }
+        return ret;
+    }
+}
 
-        public MyListNode(CelestialBody body) {
-            this.body = body;
-            this.next = null;
-            this.prev = null;
+/**
+ * This helper class implements internal list nodes used by CelestialSystem class
+ */
+class MyCSListNode {
+    //Object Variables:
+    private CelestialBody body;
+    private MyCSListNode next, prev;
+
+    //Constructors:
+
+    public MyCSListNode(CelestialBody body, MyCSListNode next, MyCSListNode prev) {
+        this.body = body;
+        this.next = next;
+        this.prev = prev;
+    }
+
+    //Object Methods:
+
+    /**
+     * Adds a new CelestialBody at the end of list.
+     * Assert that this is a non-empty list.
+     * @param body body to be added
+     * @return Returns the reference of the newly added node
+     */
+    public MyCSListNode add(CelestialBody body) {
+        if (body.getName().equals(this.body.getName())) {
+            return null; // duplicate found
+        } else if (next == null) {
+            next = new MyCSListNode(body, null, this);
+            return next; // add at end of list
+        } else {
+            return next.add(body);
         }
+    }
 
-        //Object Methods:
-
-        /**
-         * Setter Method for updating the next reference of linked list
-         * @param next reference of following list item in list
-         */
-        public void setNext(MyListNode next) {
-            this.next = next;
+    /**
+     * Adds a new body into list at index i. Pre-condition is a valid index.
+     * @param i index the body should be added at
+     * @param body body to at to list
+     * @return true is added successfully
+     */
+    public boolean add(int i, CelestialBody body) {
+        if(i == 0) { // add new body here
+            this.prev = this.prev.next = new MyCSListNode(body, this, this.prev);
+            return true;
         }
-
-        /**
-         * Setter Method for updating the prev reference of linked list
-         * @param prev reference of the previous list item in list
-         */
-        public void setPrev(MyListNode prev) {
-            this.prev = prev;
+        if (next != null) { // traverse recursively till index
+            return next.add(i-1, body);
         }
+        if (i == 1) { // add as next list node
+            return add(body) != null;
+        }
+        return false;
+    }
 
-        /**
-         * Getter Method for entry of list item
-         * @return celestial body; entry in list
-         */
-        public CelestialBody body() {
+    /**
+     * Creates a new CelestialSystem but in reversed order of 'this' list. The original list
+     * is unchanged. Assert that 'this' is a non-empty list.
+     * @return Reference for the reversed CelestialSystem
+     */
+    public MyCSListNode reverse() {
+        MyCSListNode prev = this.prev == null ? null : this.prev.reverse();
+        return new MyCSListNode(this.body, prev, null);
+    }
+
+    /**
+     * Checks if a body with the same name is already in this non-empty celestial system.
+     * In case the body is found the reference gets returned, else 'null'
+     * @param bodyName name of body to check for
+     * @return true if celestial system contains body with same name, false otherwise
+     */
+    public CelestialBody get(String bodyName) {
+        if (this.body.getName().equals(bodyName)) {
             return this.body;
         }
-
-        /**
-         * Getter Method for next reference of linked list
-         * @return reference of next item
-         */
-        public MyListNode next() {
-            return this.next;
+        if (next != null) {
+            return next.get(bodyName);
         }
+        return null; // base case
+    }
 
-        /**
-         * Getter Method for prev reference of linked list
-         * @return reference of previous item
-         */
-        public MyListNode prev() {
-            return this.prev;
+    /**
+     * Returns the reference of the celestial body at index i, Pre-Condition is a non-empty list
+     * @param i index of body to be returned
+     * @return body reference for valid index i, 'null' otherwise
+     */
+    public CelestialBody get(int i) {
+        if (i == 0) { // return this body at index
+            return body;
+        } else if (next == null) { // base case
+            return null;
+        } else { // continue to search
+            return next.get(i-1);
+        }
+    }
+
+    /**
+     * Looks for the length of the list by traversing through
+     * @return Number of CelestialBodies in list
+     */
+    public int size() {
+        if (next == null) return 1;
+        return 1 + next.size();
+    }
+
+    /**
+     * Returns a string listing all bodies in respective order of the list.
+     * Assert that the list is non-empty!
+     * @return formatted string with names of all bodies
+     */
+    @Override
+    public String toString(){
+        if (next != null) { // recursive step
+            return this.body.getName() + ", " + next.toString();
+        } else { // base case
+            return this.body.getName();
         }
     }
 }

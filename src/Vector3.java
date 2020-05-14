@@ -120,6 +120,7 @@ public class Vector3 {
      * Returns the coordinates of this vector in brackets as a string
      * in the form "[x,y,z]", e.g., "[1.48E11,0.0,0.0]".
      */
+    @Override
     public String toString() {
         //TODO: implement method.
         return String.format("[%.1f, %.1f, %.1f]", x, y, z);

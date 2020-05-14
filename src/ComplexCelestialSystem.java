@@ -1,7 +1,7 @@
 public class ComplexCelestialSystem {
     //Object Variables:
     private String name;
-    private MyListNode head, last;
+    private MyCCSListNode head, tail;
 
     //Constructors:
 
@@ -11,7 +11,7 @@ public class ComplexCelestialSystem {
      */
     public ComplexCelestialSystem(String name) {
         this.name = name; // set name of complex list
-        head = last = null;
+        head = tail = null;
     }
 
     //Object Methods:
@@ -25,46 +25,25 @@ public class ComplexCelestialSystem {
      * @return 'true' if the list was changed as a result of the call and 'false' otherwise
      */
     public boolean add(CelestialSystem subsystem) {
-        if (head != null ) { // at least one subsystem in list
-            //Check for duplicate names:
-            MyListNode item = head;
-            while (item != null) {
-                if (item.system.getName().equals(subsystem.getName())) return false; // duplicate subsystem found
-                for (int i = 0; i < subsystem.size(); i++) { // iterate every body
-                    if (item.system.contains(subsystem.get(i).getName())) return false; // duplicate body found
-                }
-                item = item.next;
-            }
-            if (subsystem.size() == 0) return false; // do not add empty system
-
-            //If not already returned, no duplicate names where found: add subsystem to list
-            MyListNode newItem = new MyListNode(subsystem);
-            last.setNext(newItem);
-            last = newItem;
-            return true; // entry added successfully
-        } else { // empty list
-            head = last = new MyListNode(subsystem);
+        if (subsystem == null) return false;
+        if (head == null) { // empty list
+            head = tail = new MyCCSListNode(subsystem, null, null);
             return true;
         }
+        return (tail = head.add(subsystem)) != null;
     }
 
     /**
      * Checks if any of the subsystems contains a body with the given name or has the same name
      * as the given body itself.
-     * @param BodyName name of the given body
+     * @param bodyName name of the given body
      * @return true if any subsystem contains a name duplicate, false otherwise
      */
-    public boolean contains(String BodyName) {
-        if (head != null) { // non-empty list
-            MyListNode item = head;
-            while (item != null && !item.system.contains(BodyName)) {
-                if (item.system.getName().equals(BodyName)) return true;
-                item = item.next;
-            }
-            return item != null; // traversed entire list if null: no duplicates found
-        } else { // empty list
+    public boolean contains(String bodyName) {
+        if (head == null) {
             return false;
         }
+        return head.get(bodyName) != null;
     }
 
     /**
@@ -75,17 +54,11 @@ public class ComplexCelestialSystem {
      * @return reference of celestial system searched for, otherwise null-reference
      */
     public CelestialSystem get(String name) {
-        MyListNode item = head;
-        while (item != null && !item.system().getName().equals(name)) {
-            CelestialBody tempBody = item.system().get(name); // search for body in subsystem
-            if (tempBody != null) { // celestial body found!
-                CelestialSystem tempSystem = new CelestialSystem(tempBody.getName());
-                tempSystem.add(tempBody);
-                return tempSystem; // return found celestial body as only item in tempSystem
-            }
-            item = item.next();
+        if (head == null) {
+            return null;
+        } else {
+            return head.get(name);
         }
-        return item == null ? null : item.system(); // return found system in case
     }
 
     /**
@@ -95,12 +68,11 @@ public class ComplexCelestialSystem {
      * @return subsystem at index i, otherwise null-reference
      */
     public CelestialSystem get(int i) {
-        MyListNode item = head;
-        while (item != null && i > 0) { // traverse list until index i
-            i--;
-            item = item.next();
+        if (head == null) {
+            return null;
+        } else {
+            return head.get(i);
         }
-        return item == null ? null : item.system;
     }
 
     /**
@@ -108,73 +80,124 @@ public class ComplexCelestialSystem {
      * @return length of linked list as integer
      */
     public int size() {
-        int size = 0;
-        MyListNode item = head;
-        while (item != null) { // traverse through list once
-            size += item.system.size();
-            item = item.next;
+        if (head == null) {
+            return 0;
+        } else {
+            return head.size();
         }
-        return size;
     }
 
-    //TODO: Define additional class(es) implementing a linked list (either here or outside class).
-
-    private class MyListNode {
-        //Object Variables:
-        private CelestialSystem system;
-        private MyListNode next;
-
-        //Constructors:
-
-        /**
-         * default constructor
-         */
-        public MyListNode() {
-            this.next = null;
-        }
-
-        /**
-         * initializes an item with the given celestial subsystem as an value entry
-         * @param system celestial system object to be entry of list item
-         */
-        public MyListNode(CelestialSystem system) {
-            this.system = system;
-            this.next = null;
-        }
-
-        //Object Methods:
-
-        /**
-         * Setter Method for list entry
-         * @param system set entry for this item (a CelestialSystem object)
-         */
-        public void setSystem(CelestialSystem system) {
-            this.system = system;
-        }
-
-        /**
-         * Setter Method for updating the next reference of linked list
-         * @param next reference of following list item in list
-         */
-        public void setNext(MyListNode next) {
-            this.next = next;
-        }
-
-        /**
-         * Getter Method for entry of list item
-         * @return celestial body; entry in list
-         */
-        public CelestialSystem system() {
-            return this.system;
-        }
-
-        /**
-         * Getter Method for next reference of linked list
-         * @return reference of next item
-         */
-        public MyListNode next() {
-            return this.next;
+    /**
+     * Creates a readable representation of the list of complex systems
+     * @return String representation
+     */
+    @Override
+    public String toString() {
+        String ret = "<=== {"+name+"} ===>\r\n";
+        if (head == null) {
+            return ret + "empty.\r\n";
+        } else {
+            return ret + head.toString() + "\r\n";
         }
     }
 }
 
+/**
+ * This is a helper class for the ComplexCelestialSystem list. It implements a single list node
+ */
+class MyCCSListNode {
+    //Object Variables:
+    private CelestialSystem system;
+    private MyCCSListNode next, prev;
+
+    //Constructors:
+
+    /**
+     * initializes an item with the given celestial subsystem as an value entry
+     * @param system celestial system object to be entry of list item
+     */
+    public MyCCSListNode(CelestialSystem system, MyCCSListNode next, MyCCSListNode prev) {
+        this.system = system;
+        this.next = next;
+        this.prev = prev;
+    }
+
+    //Object Methods:
+
+    /**
+     * Adds a new CelestialSystem at the end of the linked-list.
+     * Assert that is is a non-empty list.
+     * @param system System to be added
+     * @return Returns the reference of the newly added node
+     */
+    public MyCCSListNode add(CelestialSystem system) {
+        for (int i = 0; i < system.size(); i++) { // check for duplicates in 'this' system
+            if (this.system.contains(system.get(i).getName())) {
+                return null;
+            }
+        }
+        if (next == null) { // base case
+            next = new MyCCSListNode(system, null, this);
+            return next;
+        } else { // recursive step
+            return next.add(system);
+        }
+    }
+
+    /**
+     * Returns the single body or subsystem with 'name' or 'null' if no such body or subsystem
+     * exists in this system. In case of a single body, the body is returned as a subsystem of
+     * one body, with the same name as the body.
+     * Assert that this is a npn-empty list.
+     * @param name name of subsystem or body to search for
+     * @return reference of celestial system searched for, otherwise null-reference
+     */
+    public CelestialSystem get(String name) {
+        if (this.system.getName().equals(name)) { // check name of system itself
+            return this.system;
+        } else if (this.system.get(name) != null) { // check if system holds the name
+            return new CelestialSystem(this.system.get(name).getName());
+        } else if (next != null) { // recursive step
+            return next.get(name);
+        } else { // base case, no match found
+            return null;
+        }
+    }
+
+    /**
+     * Returns the subsystem with the index 'i'. The subsystem that was first added to the list has the
+     * index 0, the subsystem that was most recently added to the list has the index size()-1.
+     * @param i index of subsystem to be returned
+     * @return subsystem at index i, otherwise null-reference
+     */
+    public CelestialSystem get(int i) {
+        if (i == 0) { // return this index
+            return this.system;
+        } else if (next == null) { // end of list
+            return null;
+        } else { // continue to search
+            return next.get(i-1);
+        }
+    }
+
+    /**
+     * Returns the number of subsystem in this complex list.
+     * @return length of linked list as integer
+     */
+    public int size() {
+        if (next == null) { // end of list
+            return 1;
+        } else { // continue to count
+            return 1 + next.size();
+        }
+    }
+
+    @Override
+    public String toString() {
+        if (next == null) { // last list item
+            return system.toString();
+        } else { // continue list
+            return system.toString()+"\r\n"+next.toString();
+        }
+    }
+}

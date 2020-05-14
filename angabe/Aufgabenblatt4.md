@@ -2,7 +2,7 @@
 
 ## Allgemeine Anmerkungen
 Ihre Lösung für dieses Aufgabenblatt ist bis Freitag, 24.4. 13h durch `git commit` und `push` 
-abzugeben. Mit der Angabe wird die Datei `CelestialSystemIndex.java` mitgeliefert.
+abzugeben. Mit der Angabe wird die Datei `CelestialSystemIndexTree.java` mitgeliefert.
 Vorgegebene Programmteile dürfen nur an den Stellen verändert werden, die mit TODO markiert sind.
 Zusätzliche Klassen, Interfaces, Methoden und Variablen dürfen aber eingefügt werden.
 Wenn Sie zusätzlich zu den gefragten Klassen, weitere Klassen definieren, achten Sie darauf, 
@@ -50,7 +50,7 @@ implementiert wird. Ändern die Klasse, ohne dass sich das Verhalten ihrer Objek
     }
 ````
     
-3. Implementieren Sie die Klasse `CelestialSystemIndex`, die einen binären Suchbaum für Objekte der
+3. Implementieren Sie die Klasse `CelestialSystemIndexTree`, die einen binären Suchbaum für Objekte der
 Klasse `CelestialSystem` implementiert. Der Schlüssel für die Suche ist der Name eines 
 Himmelskörpers (nicht der eines Systems). Die Klasse bietet Methoden zur Suche nach Systemen, 
 in denen bestimmte Himmelskörper vorkommen. Zum Beispiel liefert die Suche mit dem Namen "Io" das
@@ -61,6 +61,6 @@ Die Positionen und Geschwindigkeitsvektoren spielen in diesem Aufgabenblatt kein
 können beim Testen (0,0,0) gesetzt werden.
 
 ## Zusatzfragen
-Wie müsste man die Methoden von `CelestialSystemIndex` ändern, wenn man im Baum nicht nur mit 
+Wie müsste man die Methoden von `CelestialSystemIndexTree` ändern, wenn man im Baum nicht nur mit 
 Namen von Himmelskörpern, sondern auch mit Namen von Systemen suchen will?
 

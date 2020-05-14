@@ -1,12 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="4236b4ff-fbae-4bdc-9c41-0cd9cb98ef1c" name="Default Changelist" comment="v4.2: changed added test cases">
+    <list default="true" id="4236b4ff-fbae-4bdc-9c41-0cd9cb98ef1c" name="Default Changelist" comment="v5.0: first release">
+      <change afterPath="$PROJECT_DIR$/src/CelestialSystemIndexTree.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/CelestialSystemIndexTreeVariant.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/angabe/Aufgabenblatt4.md" beforeDir="false" afterPath="$PROJECT_DIR$/angabe/Aufgabenblatt4.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/angabe/Aufgabenblatt5.md" beforeDir="false" afterPath="$PROJECT_DIR$/angabe/Aufgabenblatt5.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CelestialBody.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/CelestialBody.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/CelestialSystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/CelestialSystem.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/CelestialSystemIndex.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/CelestialSystemIndex.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CelestialSystemIndexMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/CelestialSystemIndexMap.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ComplexCelestialSystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ComplexCelestialSystem.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Simulation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Simulation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Vector3.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Vector3.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -14,17 +21,30 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectId" id="1YlLHhEw6zdKLw87oNwgAJKP91G" />
   <component name="PropertiesComponent">
     <property name="TODO_SCOPE" value="All Places" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../AD/P/P1" />
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.116027534" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="settings.editor.selected.configurable" value="project.propCompiler" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\olive\Documents\Universität\EP2\Arbeitsblatt\src" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -154,7 +174,14 @@
       <option name="project" value="LOCAL" />
       <updated>1587590164459</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="v4.2: added test cases">
+      <created>1587658246398</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1587658246398</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -193,28 +220,15 @@
     <MESSAGE value="v4.0: first release" />
     <MESSAGE value="v4.0: changed CelestialSystemIndex.add" />
     <MESSAGE value="v4.2: changed added test cases" />
-    <option name="LAST_COMMIT_MESSAGE" value="v4.2: changed added test cases" />
+    <MESSAGE value="v4.2: added test cases" />
+    <MESSAGE value="v5.0: first release" />
+    <option name="LAST_COMMIT_MESSAGE" value="v5.0: first release" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/Simulation.java</url>
-          <line>73</line>
-          <option name="timeStamp" value="30" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
     <watches-manager>
       <configuration name="Application">
-        <watch expression="spaceRange" language="JAVA" />
-        <watch expression="offsetX" language="JAVA" />
-        <watch expression="offsetY" language="JAVA" />
-        <watch expression="focusedBody" />
-        <watch expression="forceOnBody" />
-        <watch expression="bodyList" />
-        <watch expression="test1" language="JAVA" />
-        <watch expression="test2" language="JAVA" />
+        <watch expression="map" language="JAVA" />
+        <watch expression="map2" language="JAVA" />
       </configuration>
     </watches-manager>
   </component>
