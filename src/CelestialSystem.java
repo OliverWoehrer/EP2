@@ -157,10 +157,17 @@ public class CelestialSystem {
         if (o == null || getClass() != o.getClass()) return false;
         CelestialSystem cs = (CelestialSystem) o;
         for (int i = 0; i < this.size(); i++) {
-            //if (!cs.get(this.get(i).getName()).equals(this.get(i))) return false;
-            if(!cs.contains(this.get(i).getName())) {
+            CelestialBody temp = this.get(i);
+            CelestialBody temp2 = cs.get(temp.getName());
+            if (!temp.equals(temp2)) {
                 return false;
             }
+
+
+
+            /*if(!cs.contains(this.get(i).getName())) {
+                return false;
+            }/**/
         }
         return true;
     }

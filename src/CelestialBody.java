@@ -136,8 +136,8 @@ public class CelestialBody {
      * Creates a hashcode based on the body name string
      * @return int hashcode
      */
-    /*@Override
+    @Override
     public int hashCode() {
         return name.hashCode();
-    }/**/
+    }
 }

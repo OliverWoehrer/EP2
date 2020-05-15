@@ -54,62 +54,48 @@ public class Simulation {
 
         //Test cases:
         CelestialBody metis1 = new CelestialBody("Metis", 1, 1, StdDraw.GRAY);
-        CelestialBody metis2 = new CelestialBody("Metis", 1, 1, StdDraw.GRAY);
+        CelestialBody metis2 = new CelestialBody("Metis", 2, 2, StdDraw.GRAY);
         CelestialBody metis3 = new CelestialBody("BlaBla", 11, 1, StdDraw.GRAY);
         jupiterSystem.add(1, metis1);
         System.out.println("Test CelestialBody:");
-        System.out.println(metis1.equals(metis1)); // true
-        System.out.println(metis1.equals(metis2)); // true
-        System.out.println(metis2.equals(metis1)); // true
-        System.out.println(metis1.equals(null)); // false
-        System.out.println((metis1.equals(metis3))); // false
-        System.out.println((metis1.hashCode() == metis2.hashCode())); // true
+        assert metis1.equals(metis1); // true
+        assert metis1.equals(metis2); // true
+        assert metis2.equals(metis1); // true
+        assert !metis1.equals(null); // false
+        assert !(metis1.equals(metis3)); // false
+        assert (metis1.hashCode() == metis2.hashCode()); // true
 
         System.out.println("Test CelestialSystem:");
         System.out.println(jupiterSystem);
         System.out.println(jupiterSystem.reverse());
-        System.out.println(saturnSystem); // empty
-        System.out.println(saturnSystem.reverse()); // empty
-        System.out.println(jupiterSystem.equals(jupiterSystem)); // true
-        System.out.println(jupiterSystem.equals(jupiterSystem.reverse())); // true
-        System.out.println(jupiterSystem.reverse().equals(null)); // false
-        System.out.println(jupiterSystem.hashCode()); // hashcode: 444260504
-        System.out.println((jupiterSystem.reverse().hashCode())); // hashcode: 444260504
-        System.out.println(saturnSystem.equals(saturnSystem)); // true
+        assert (jupiterSystem.equals(jupiterSystem)); // true
+        assert (jupiterSystem.equals(jupiterSystem.reverse())); // true
+        assert !jupiterSystem.reverse().equals(null); // false
+        assert (jupiterSystem.hashCode() == jupiterSystem.reverse().hashCode()); // true
+        assert saturnSystem.equals(saturnSystem); // true
 
         System.out.println("\r\nTest Binary Search Tree:");
-        CelestialSystemIndexTree index = new CelestialSystemIndexTree();
-        index.add(jupiterSystem);
-        index.add(marsSystem);
-        index.add(earthSystem);
-        System.out.println(index);
-        System.out.println(index.get("Phobos").getName()); // Mars system
-        System.out.println(index.get("Io").getName()); // Jupiter system
-        System.out.println(index.get("Kallisto").getName()); // Jupiter system
-        System.out.println(index.get("Earth").getName()); // Earth system
-        System.out.println(index.numberOfBodies()); // 14
-        System.out.println(index.numberOfSystems()); // 3
+        CelestialSystemIndex tree1 = new CelestialSystemIndexTreeVariant();
+        CelestialSystemIndex tree2 = new CelestialSystemIndexTreeVariant();
+        tree1.add(jupiterSystem);
+        tree2.add(jupiterSystem.reverse());
+        assert tree1.equals(tree2); // true
+        assert (tree1.hashCode() == tree2.hashCode()); // true
+        assert tree1.add(marsSystem); // true
+        assert !tree1.add(marsSystem); // false
+        assert !tree1.equals(tree2); // false
 
         System.out.println("\r\nTest Hash Table:");
         CelestialSystemIndex map1 = new CelestialSystemIndexMap();
         CelestialSystemIndex map2 = new CelestialSystemIndexMap();
-        CelestialSystemIndex tree1 = new CelestialSystemIndexTreeVariant();
-        CelestialSystemIndex tree2 = new CelestialSystemIndexTreeVariant();
         map1.add(jupiterSystem);
-        tree1.add(jupiterSystem);
         map2.add((jupiterSystem.reverse()));
-        tree2.add(jupiterSystem.reverse());
-        System.out.println(map1.hashCode()); // hashcode -1788227640
-        System.out.println(map2.hashCode()); // hashcode -1788227640
-        System.out.println(map1.equals(map2)); // true
-        System.out.println(tree1.equals(tree2)); // true
+        assert (map1.hashCode() == map2.hashCode()); // hashcode -1788227640
+        assert (map1.equals(map2)); // true
         System.out.println("--");
-        System.out.println(map1.add(marsSystem)); // true;
-        System.out.println(map1.add(marsSystem)); // false
-        System.out.println(tree1.add(marsSystem)); // true
-        System.out.println(tree1.add(marsSystem)); // false
-        System.out.println(tree1.equals(tree2)); // false
-        System.out.println(map1.add(saturnSystem)); // false
+        assert map1.add(marsSystem); // true;
+        assert !map1.add(marsSystem); // false
+        assert !map1.add(saturnSystem); // false
         System.out.println(map1);
         System.out.println(map2);
         System.out.println("--");
@@ -162,8 +148,8 @@ public class Simulation {
     /*
     (1) Die equals()-Vergleiche von CelestialBody sind falsch, da auch andere Eigenschaften neben dem Namen
     zum Vergleich herangezogen werden. Die Vergleiche von CelestialSystem funktionieren weiterhin
-    da hier nicht auf CelestialBody.equals zurückgegriffen wird sondern mittels contains(String) nach dem
-    passenden Namen in der Liste gesucht wird.
+    da hier auf Standart Object.equals() zurückgegriffen wird. Und nach dem Ein Body immer nur einmal in ein
+    Systeme eingefügt werden kann, sind es tatsächlich immer die gleichen bodies die verglichen werden.
     Die equals()-Vergleiche in CelestialSystemIndexMap sind ebenfalls unbeeinflusst da hier wieder über
     contains() nach passenden Keys gesucht wird (-> unbeeinflusst). Die Suche nach passenden Values ist durch
     CelestialSystem.equals() auch nicht beeinflusst.
