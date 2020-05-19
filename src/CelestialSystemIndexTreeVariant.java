@@ -24,14 +24,13 @@ public class CelestialSystemIndexTreeVariant implements CelestialSystemIndex {
      * @return true if all bodies were added successfully, false if a body is a duplicate
      */
     public boolean add(CelestialSystem system) {
-        int systemSize = system.size();
-        if (systemSize == 0) return false; // do not add empty system
-        for (int i = 0; i < systemSize; i++) {
+        if (system == null || system.size() == 0) return false; // do not add empty system
+        for (int i = 0; i < system.size(); i++) {
             if (root.contains(system.get(i).getName())) return false;  // duplicate found
         }
 
         numberOfSystems++; // add into binary search tree
-        for (int i = 0; i < systemSize; i++) {
+        for (int i = 0; i < system.size(); i++) {
             root.add(system.get(i), system); // key=body name, value=celestial system
         }
         return true;
@@ -212,11 +211,10 @@ class MyVTreeNode {
     @Override
     public String toString() {
         String ret = "";
-        if (left != null) ret += left.toString();
+        ret += left == null ? "" : left.toString();
         ret += "{"+bodyName+":"+system.getName()+"}\r\n";
-        if (right != null) ret += right.toString();
+        ret += right == null ? "" : right.toString();
         return ret;
-
     }
 
     @Override

@@ -14,8 +14,6 @@ public class Simulation {
 
     // The main simulation method using instances of other classes.
     public static void main(String[] args) {
-
-        //TODO: change implementation of this method according to 'Aufgabenblatt2.md'.
         Locale.setDefault(Locale.US); // use US formatted numbers (dot (.) as comma)
 
         //Read initial body positions and pass via linked list:
@@ -32,6 +30,9 @@ public class Simulation {
         jupiterSystem.add(new CelestialBody("Amalthea", 1, 1, StdDraw.WHITE));
         jupiterSystem.add(new CelestialBody("Himalia", 1, 1, StdDraw.WHITE));
         jupiterSystem.add(new CelestialBody("Elara", 1, 1, StdDraw.WHITE));
+        CelestialBody metis = new CelestialBody("Metis", 1, 1, StdDraw.GRAY);
+        CelestialBody carme = new CelestialBody("Carme", 1, 1, StdDraw.GRAY);
+        jupiterSystem.add(metis);
 
         //Initialize earth system:
         CelestialSystem earthSystem = new CelestialSystem("Earth system");
@@ -40,7 +41,7 @@ public class Simulation {
         earthSystem.add(new CelestialBody("Moon", 7.349e22, 1738e3, new Vector3(0,0,0),
                 new Vector3(0,0,0), StdDraw.GRAY));
 
-        //initialize mars system:
+        //Initialize mars system:
         CelestialSystem marsSystem = new CelestialSystem("Mars system");
         marsSystem.add(new CelestialBody("Mars", 6.419e23, 3396e3, new Vector3(0,0,0),
                 new Vector3(0,0,0), StdDraw.RED));
@@ -49,60 +50,48 @@ public class Simulation {
         marsSystem.add(new CelestialBody("Deimos", 1.8e15, 6e3, new Vector3(0,0,0),
                 new Vector3(0,0,0), StdDraw.GRAY));
 
-        //initialize saturn system:
+        //Initialize saturn system:
         CelestialSystem saturnSystem = new CelestialSystem("Saturn system");
 
         //Test cases:
-        CelestialBody metis1 = new CelestialBody("Metis", 1, 1, StdDraw.GRAY);
-        CelestialBody metis2 = new CelestialBody("Metis", 2, 2, StdDraw.GRAY);
-        CelestialBody metis3 = new CelestialBody("BlaBla", 11, 1, StdDraw.GRAY);
-        jupiterSystem.add(1, metis1);
-        System.out.println("Test CelestialBody:");
-        assert metis1.equals(metis1); // true
-        assert metis1.equals(metis2); // true
-        assert metis2.equals(metis1); // true
-        assert !metis1.equals(null); // false
-        assert !(metis1.equals(metis3)); // false
-        assert (metis1.hashCode() == metis2.hashCode()); // true
+        System.out.println("\r\nTest CelestialBodyIterator:");
+        jupiterSystem.iterator();
+        for (CelestialBody body : jupiterSystem) {
+            System.out.println(body);
+        }
 
-        System.out.println("Test CelestialSystem:");
-        System.out.println(jupiterSystem);
-        System.out.println(jupiterSystem.reverse());
-        assert (jupiterSystem.equals(jupiterSystem)); // true
-        assert (jupiterSystem.equals(jupiterSystem.reverse())); // true
-        assert !jupiterSystem.reverse().equals(null); // false
-        assert (jupiterSystem.hashCode() == jupiterSystem.reverse().hashCode()); // true
-        assert saturnSystem.equals(saturnSystem); // true
+        System.out.println("\r\nTest CelestialBodyComparator:");
+        CelestialBodyComparator comparator = new CelestialBodyNameComparator();
+        assert (comparator.compare(metis, carme) < 0);
+        assert (comparator.compare(metis, metis) < 0);
+        System.out.println((comparator.compare(metis, null)));
+
+        System.out.println("\r\nTest CelestialSystemIndexTreeVariantC:");
+        CelestialSystemIndexTreeVariantC treeVariant = new CelestialSystemIndexTreeVariantC(comparator);
+        assert treeVariant.add(jupiterSystem);
+        assert !treeVariant.add((jupiterSystem.reverse()));
+        assert !treeVariant.add(saturnSystem);
+        assert !treeVariant.contains(carme);
+        assert treeVariant.get(metis).equals(jupiterSystem);
+
 
         System.out.println("\r\nTest Binary Search Tree:");
         CelestialSystemIndex tree1 = new CelestialSystemIndexTreeVariant();
         CelestialSystemIndex tree2 = new CelestialSystemIndexTreeVariant();
         tree1.add(jupiterSystem);
         tree2.add(jupiterSystem.reverse());
-        assert tree1.equals(tree2); // true
-        assert (tree1.hashCode() == tree2.hashCode()); // true
-        assert tree1.add(marsSystem); // true
-        assert !tree1.add(marsSystem); // false
-        assert !tree1.equals(tree2); // false
+
 
         System.out.println("\r\nTest Hash Table:");
         CelestialSystemIndex map1 = new CelestialSystemIndexMap();
         CelestialSystemIndex map2 = new CelestialSystemIndexMap();
         map1.add(jupiterSystem);
         map2.add((jupiterSystem.reverse()));
-        assert (map1.hashCode() == map2.hashCode()); // hashcode -1788227640
-        assert (map1.equals(map2)); // true
-        System.out.println("--");
+
         assert map1.add(marsSystem); // true;
         assert !map1.add(marsSystem); // false
         assert !map1.add(saturnSystem); // false
-        System.out.println(map1);
-        System.out.println(map2);
-        System.out.println("--");
 
-        System.out.println(map1.get(jupiterSystem.get("Io"))); // Jupiter system
-        System.out.println(map1.get(marsSystem.get("Io"))); // null
-        System.out.println(map1.get(earthSystem.get("Moon"))); // Earth system
 
 
 

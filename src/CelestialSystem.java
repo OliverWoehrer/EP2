@@ -1,11 +1,9 @@
-import java.util.Objects;
-
 /**
  * Implements a linked list of CelestialBody objects. The object reference itself is held by a list node
  * besides a reference to the next list item. Celestial bodies with duplicate names inside this list,
  * are not allowed. Duplicates are prevented on adding new bodies.
  */
-public class CelestialSystem {
+public class CelestialSystem implements CelestialBodyCollection {
     private String nameOfSystem;
     private MyCSListNode head, tail;
 
@@ -133,6 +131,14 @@ public class CelestialSystem {
     }
 
     /**
+     * Creates a iterator, implemented by the helper class MyCelesitalBodyIter
+     * @return Iterator for CelestialSystem
+     */
+    public CelestialBodyIterator iterator() {
+        return new MyCSListNodeIter(head);
+    }
+
+    /**
      * Returns a readable representation with the name of the system and all bodies in respective order of the list.
      * @return formatted string with names of all bodies
      */
@@ -156,18 +162,13 @@ public class CelestialSystem {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CelestialSystem cs = (CelestialSystem) o;
+        if (this.size() != cs.size()) return false;
         for (int i = 0; i < this.size(); i++) {
             CelestialBody temp = this.get(i);
             CelestialBody temp2 = cs.get(temp.getName());
             if (!temp.equals(temp2)) {
                 return false;
             }
-
-
-
-            /*if(!cs.contains(this.get(i).getName())) {
-                return false;
-            }/**/
         }
         return true;
     }
@@ -288,6 +289,22 @@ class MyCSListNode {
     }
 
     /**
+     * Getter method for the celestial body
+     * @return Reference of the celestial body held by this node
+     */
+    public CelestialBody getBody() {
+        return this.body;
+    }
+
+    /**
+     * Getter method for next list node reference
+     * @return Reference of the next list node
+     */
+    public MyCSListNode getNext() {
+        return this.next;
+    }
+
+    /**
      * Returns a string listing all bodies in respective order of the list.
      * Assert that the list is non-empty!
      * @return formatted string with names of all bodies
@@ -298,6 +315,36 @@ class MyCSListNode {
             return this.body.getName() + ", " + next.toString();
         } else { // base case
             return this.body.getName();
+        }
+    }
+}
+
+/**
+ * This helper class implements an iterator for CelestialSystem.
+ * Does always points to the next list entry in CelestialSystem
+ */
+class MyCSListNodeIter implements CelestialBodyIterator {
+    private MyCSListNode n;
+
+    //Constructors:
+
+    public MyCSListNodeIter(MyCSListNode n) {
+        this.n = n;
+    }
+
+    //Object Methods:
+
+    public boolean hasNext() {
+        return n != null;
+    }
+
+    public CelestialBody next() {
+        if (n == null) {
+            return null;
+        } else {
+            CelestialBody ret = n.getBody();
+            n = n.getNext();
+            return ret;
         }
     }
 }

@@ -123,7 +123,7 @@ public class Vector3 {
     @Override
     public String toString() {
         //TODO: implement method.
-        return String.format("[%.1f, %.1f, %.1f]", x, y, z);
+        return String.format("(%.1f, %.1f, %.1f)", x, y, z);
     }
 
     /**
