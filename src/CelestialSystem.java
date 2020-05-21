@@ -14,7 +14,6 @@ public class CelestialSystem implements CelestialBodyCollection {
      * @param name name of the linked list
      */
     public CelestialSystem(String name) {
-        //TODO: implement constructor.
         this.nameOfSystem = name; // set name of whole system
         head = tail = null;
     }
@@ -135,7 +134,7 @@ public class CelestialSystem implements CelestialBodyCollection {
      * @return Iterator for CelestialSystem
      */
     public CelestialBodyIterator iterator() {
-        return new MyCSListNodeIter(head);
+        return new MyCSIter(head);
     }
 
     /**
@@ -144,7 +143,7 @@ public class CelestialSystem implements CelestialBodyCollection {
      */
     @Override
     public String toString() {
-        String ret = "["+this.nameOfSystem+"]: ";
+        String ret = "{"+this.nameOfSystem+"}: ";
         if (head == null) {
             return ret + "empty.";
         } else {
@@ -323,12 +322,12 @@ class MyCSListNode {
  * This helper class implements an iterator for CelestialSystem.
  * Does always points to the next list entry in CelestialSystem
  */
-class MyCSListNodeIter implements CelestialBodyIterator {
+class MyCSIter implements CelestialBodyIterator {
     private MyCSListNode n;
 
     //Constructors:
 
-    public MyCSListNodeIter(MyCSListNode n) {
+    public MyCSIter(MyCSListNode n) {
         this.n = n;
     }
 

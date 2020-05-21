@@ -62,9 +62,8 @@ public class Simulation {
 
         System.out.println("\r\nTest CelestialBodyComparator:");
         CelestialBodyComparator comparator = new CelestialBodyNameComparator();
-        assert (comparator.compare(metis, carme) < 0);
-        assert (comparator.compare(metis, metis) < 0);
-        System.out.println((comparator.compare(metis, null)));
+        assert (comparator.compare(metis, carme) > 0);
+        assert (comparator.compare(metis, null) == 0);
 
         System.out.println("\r\nTest CelestialSystemIndexTreeVariantC:");
         CelestialSystemIndexTreeVariantC treeVariant = new CelestialSystemIndexTreeVariantC(comparator);
@@ -73,27 +72,23 @@ public class Simulation {
         assert !treeVariant.add(saturnSystem);
         assert !treeVariant.contains(carme);
         assert treeVariant.get(metis).equals(jupiterSystem);
+        for (CelestialBody celestialBody : treeVariant) {
+            System.out.println(celestialBody);
+        }
 
-
-        System.out.println("\r\nTest Binary Search Tree:");
-        CelestialSystemIndex tree1 = new CelestialSystemIndexTreeVariant();
-        CelestialSystemIndex tree2 = new CelestialSystemIndexTreeVariant();
-        tree1.add(jupiterSystem);
-        tree2.add(jupiterSystem.reverse());
-
-
-        System.out.println("\r\nTest Hash Table:");
-        CelestialSystemIndex map1 = new CelestialSystemIndexMap();
-        CelestialSystemIndex map2 = new CelestialSystemIndexMap();
-        map1.add(jupiterSystem);
-        map2.add((jupiterSystem.reverse()));
-
-        assert map1.add(marsSystem); // true;
-        assert !map1.add(marsSystem); // false
-        assert !map1.add(saturnSystem); // false
-
-
-
+        System.out.println("\r\nTest Colletion View:");
+        CelestialBodyCollection viewCollection = treeVariant.bodies();
+        CelestialBodyCollection copyCollection = treeVariant.bodiesAsCelestialSystem();
+        System.out.println("treeVariant:" + treeVariant);
+        System.out.println("viewCollection:" + viewCollection);
+        System.out.println("copyCollection: " + copyCollection);
+        treeVariant.add(marsSystem);
+        System.out.println("treeVariant after change:" + treeVariant);
+        System.out.println("viewCollection after change:" + viewCollection);
+        System.out.println("copyCollection after change: " + copyCollection);
+        treeVariant = new CelestialSystemIndexTreeVariantC(comparator);
+        viewCollection = treeVariant.bodies();
+        System.out.println(viewCollection);
 
         //Setup Canvas:
         /*
@@ -132,36 +127,4 @@ public class Simulation {
             }
         }/**/
     }
-
-    //TODO: Zusatzfragen:
-    /*
-    (1) Die equals()-Vergleiche von CelestialBody sind falsch, da auch andere Eigenschaften neben dem Namen
-    zum Vergleich herangezogen werden. Die Vergleiche von CelestialSystem funktionieren weiterhin
-    da hier auf Standart Object.equals() zurückgegriffen wird. Und nach dem Ein Body immer nur einmal in ein
-    Systeme eingefügt werden kann, sind es tatsächlich immer die gleichen bodies die verglichen werden.
-    Die equals()-Vergleiche in CelestialSystemIndexMap sind ebenfalls unbeeinflusst da hier wieder über
-    contains() nach passenden Keys gesucht wird (-> unbeeinflusst). Die Suche nach passenden Values ist durch
-    CelestialSystem.equals() auch nicht beeinflusst.
-
-    (2) Die hashCodes sind nicht mit equals übereinstimmend. Sprich die Bedingungen
-    aus Frage 3 sind weiterhin nicht erfüllt.
-
-    (3) Es gilt für x != null immer:
-     x.equals(null) = false
-     x.equals(x) = true
-     x.equals(y) && y.equals(x) = true
-     Bei wiederholten Aufrufen und unverändertem x musss equals() weiterhin die selben Ergebnisse
-     liefern.
-     Sind zwei Objekte nach der equals()-Methode gleich, so sind auch ihre hash codes gleich. Umgekehrt
-     gilt diese Beziehung nicht zwingend.
-
-     (4) Nein gilt nicht. Da beispielsweise zwei gleichnamige Körper mit unterschiedlichen Massen
-     nach der equals()-Methode gleich sind aber einen unterschiedlichen String liefern (Im String wird
-     die Masse eingebunden). Das kann problematisch werden da beim Debugging ebenfalls die
-     Darstellung von toString() verwendet wird. Zwei Körper "schauen" dann scheinbar nicht gleich aus (nicht
-     gleicher String) sind aber innerhalb des Programms per equals() gleich.
-
-     (5) Es müssten die Methodenköpfe auf das Interface angepasst werden. Konkret muss die Methode
-     get(String) auf get(CelestialBody) umgeschrieben werden, damit die übergebenen Parameter passen.
-     */
 }

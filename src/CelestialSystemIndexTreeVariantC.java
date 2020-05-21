@@ -1,7 +1,5 @@
 //TODO: change class definition below according to specification in 'Aufgabenblatt6'.
 
-import java.util.Iterator;
-
 public class CelestialSystemIndexTreeVariantC implements CelestialSystemIndex, CelestialBodyIterable {
     private VariantCNode root;
     private CelestialBodyComparator comparator;
@@ -24,7 +22,6 @@ public class CelestialSystemIndexTreeVariantC implements CelestialSystemIndex, C
      * result of the call and 'false' otherwise.
      */
     public boolean add(CelestialSystem system) {
-        if (system == null || system.size() == 0) return false;
         boolean changed = false;
         if (system == null || system.size() == 0) return false; // do not add empty system
         if (root == null) { // empty root, add first element
@@ -60,27 +57,31 @@ public class CelestialSystemIndexTreeVariantC implements CelestialSystemIndex, C
     /**
      * Returns 'true' if the specified 'body' is listed
      * in the index.
-     * @param body
-     * @return
+     * @param body Celestial body to check for
+     * @return true, if body was found in 'this' index tree
      */
     public boolean contains(CelestialBody body) {
         return get(body) != null;
     }
 
-
-
-    // Returns a collection view of all entries of this index.
+    /**
+     * Returns a collection view of all entries of this index.
+     * @return Collection as a view onto 'this' index tree
+     */
     public CelestialBodyCollection bodies() {
-        //TODO: implement method.
-        return null;
-
+        return new MyCelestialBodySet(this);
     }
 
-    // Returns all entries of this as a new collection.
+    /**
+     * Returns all entries of this as a new collection.
+     * @return Celestial system holding all bodies from index tree
+     */
     public CelestialSystem bodiesAsCelestialSystem() {
-        //TODO: implement method.
-        //return root.createCollection(new CelestialSystem("collection"));
-        return null;
+        CelestialSystem collection = new CelestialSystem("Colletion");
+        for (CelestialBody body : this) {
+            collection.add(body);
+        }
+        return collection;
     }
 
     /**
@@ -92,11 +93,16 @@ public class CelestialSystemIndexTreeVariantC implements CelestialSystemIndex, C
     }
 
     /**
-     * Creates a iterator, implemented by the helper class MyVariantCNodeIter
+     * Creates an iterator, implemented by the helper class MyVariantCNodeIter
      * @return Iterator for index tree
      */
-    public MyVariantCNodeIter iterator() {
-        return new MyVariantCNodeIter(root);
+    public MyITIter iterator() {
+        MyITIter iter = new MyITIter();
+        if (root != null) {
+            root.iter(iter, false);
+        }
+        return iter;
+
     }
 
     /**
@@ -108,7 +114,7 @@ public class CelestialSystemIndexTreeVariantC implements CelestialSystemIndex, C
         if (root == null) {
             return "empty.";
         } else {
-            return "{" + root.toString() + "}";
+            return "=== Keys =====>\r\n" + root.toString() + "==============>";
         }
     }
 
@@ -170,14 +176,6 @@ class VariantCNode {
     }
 
     /**
-     * Gathers all celestial bodies of the given index tree into one new celestial system
-     * as a collection.
-     * @param collection
-     * @return
-     */
-    //public CelestialSystem createCollection(CelestialSystem collection) {}
-
-    /**
      * Getter method for the body key
      * @return Celestial body held as key in 'this'
      */
@@ -186,10 +184,24 @@ class VariantCNode {
     }
 
     /**
+     * Method works with iterator, transforms the tree into a ordered linear list
+     * @param iter iterator
+     * @param isNotRoot false, in case to root is used
+     * @return Current celestial body
+     */
+    public CelestialBody iter(MyITIter iter, boolean isNotRoot) {
+            VariantCNode node = isNotRoot ? right : this;
+            while (node != null) {
+                new MyITIter(node, iter);
+                node = node.left;
+            }
+            return key; // return reference of celestial body held by this node
+    }
+
+    /**
      * Creates a representation of the tree as a string
      * @return Combined string, representing the tree
      */
-    @Override
     public String toString() {
         String ret = "";
         ret += left == null ? "" : left.toString();
@@ -201,33 +213,44 @@ class VariantCNode {
 }
 
 /**
- * This class implements the iterator for the index tree
+ * This class implements the iterator for the index tree: Index Tree Iterator
  */
-class MyVariantCNodeIter implements CelestialBodyIterator {
-    VariantCNode root;
+class MyITIter implements CelestialBodyIterator {
+    private VariantCNode node;
+    private MyITIter parent;
 
     //Constructors:
 
-    public MyVariantCNodeIter(VariantCNode root) {
-        this.root = root;
+    public MyITIter() {}
+
+    public MyITIter(VariantCNode node, MyITIter parent) {
+        this.node = parent.node;
+        parent.node = node;
+        this.parent = parent.parent;
+        parent.parent = this;
     }
 
     //Object Methods:
 
     public boolean hasNext() {
-        return root != null;
+        return node != null;
     }
 
     public CelestialBody next() {
-        //TODO: über baum iterieren, Skript S.97-99
-        /*
-        if (root == null) {
-            return null;
-        } else {
-            CelestialBody ret = root.getBody();
-            root = root.getNext();
-            return ret;
-        }/**/
-        return null;
+        if (node == null) { return null; }
+        VariantCNode todo = node;
+        node = parent.node;
+        parent = parent.parent;
+        return todo.iter(this , true);
     }
 }
+
+//TODO: Zusatzfragen:
+/*
+(1) Die Objekte aus der View erzeugt durch bodies() werden bewegt, da es sich hier nur um eine andere
+Sichtweise auf die Körper aus dem index-tree handelt. Sprich die Reference zeigen weiterhin auf die
+Originale und bewegen somit auch die urspürunglichen Körper
+
+(2) Der Iterator durchmustert immer den gesamten Baum in In-Order, das heißt wenn Objekte im Baum
+geändert werden, iteriert der Iterator auch über die geänderten Objekte
+ */

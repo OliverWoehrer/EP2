@@ -16,6 +16,6 @@ public class CelestialBodyNameComparator implements CelestialBodyComparator {
      */
     @Override
     public int compare(CelestialBody b1, CelestialBody b2) {
-        return b1.getName().compareTo(b2.getName());
+        return ((b1 == null || b2 == null)) ? 0 : b1.getName().compareTo(b2.getName());
     }
 }
