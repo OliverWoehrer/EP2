@@ -1,10 +1,10 @@
 import java.awt.*;
 import java.util.Objects;
 
-// This class represents celestial bodies like stars, planets, asteroids, etc..
+/**
+ * This class represents celestial bodies like stars, planets, asteroids, etc..
+ */
 public class CelestialBody {
-    //TODO: change modifiers.
-    //Object Variables:
     private String name;
     private double mass;
     private double radius;
@@ -12,7 +12,6 @@ public class CelestialBody {
     private Vector3 velocity; // velocity vector of current body speed
     private Color color; // for drawing the body.
 
-    //TODO: define constructor.
     //Constructors:
     public CelestialBody() {}
 
@@ -50,6 +49,15 @@ public class CelestialBody {
         this.radius = body.radius;
         this.position = position; // set position directly as vector
         this.velocity = velocity; // set velocity vector to given value
+        this.color = body.color;
+    }
+
+    public CelestialBody(CelestialBody body) {
+        this.name = body.name; // copy constructor
+        this.mass = body.mass;
+        this.radius = body.radius;
+        this.position = body.position;
+        this.velocity = body.velocity;
         this.color = body.color;
     }
 

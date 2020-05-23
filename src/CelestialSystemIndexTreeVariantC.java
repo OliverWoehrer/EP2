@@ -79,7 +79,7 @@ public class CelestialSystemIndexTreeVariantC implements CelestialSystemIndex, C
     public CelestialSystem bodiesAsCelestialSystem() {
         CelestialSystem collection = new CelestialSystem("Colletion");
         for (CelestialBody body : this) {
-            collection.add(body);
+            collection.add(new CelestialBody(body));
         }
         return collection;
     }
@@ -249,7 +249,8 @@ class MyITIter implements CelestialBodyIterator {
 /*
 (1) Die Objekte aus der View erzeugt durch bodies() werden bewegt, da es sich hier nur um eine andere
 Sichtweise auf die Körper aus dem index-tree handelt. Sprich die Reference zeigen weiterhin auf die
-Originale und bewegen somit auch die urspürunglichen Körper
+Originale und bewegen somit auch die urspürunglichen Körper. Die Objekte aus bodiesAsCelestialSystem()
+bewegen die Objekte in Baum nicht das es sich hier um eine Kopie mit anderen Referenzen handelt.
 
 (2) Der Iterator durchmustert immer den gesamten Baum in In-Order, das heißt wenn Objekte im Baum
 geändert werden, iteriert der Iterator auch über die geänderten Objekte
