@@ -1,5 +1,4 @@
-import com.sun.security.jgss.GSSUtil;
-
+import java.io.IOException;
 import java.util.Locale;
 
 public class Simulation {
@@ -15,11 +14,35 @@ public class Simulation {
     // The main simulation method using instances of other classes.
     public static void main(String[] args) {
         Locale.setDefault(Locale.US); // use US formatted numbers (dot (.) as comma)
+        String filePath;
+        int initialDay;
+        try {
+            if (args.length != 2) {
+                System.err.println("Error: wrong number of arguments ("+args.length+")! Two arguments required");
+                throw new IllegalArgumentException();
+            }
+            filePath = args[0];
+            initialDay = Integer.parseInt(args[1]);
+            if (!(0 <= initialDay && initialDay <= 365)) {
+                System.out.println("Error: invalid day value ("+initialDay+")");
+                throw new IllegalArgumentException();
+            }
+        } catch (IllegalArgumentException e) {
+            System.exit(-1);
+            throw e;
+        }
+
 
         //Read initial body positions and pass via linked list:
-        CelestialSystem bodies = ReadDataUtil.initialize(day+1);
-        ComplexCelestialSystem solarSystem = new ComplexCelestialSystem("Solar system");
+        //CelestialSystem bodies = ReadDataUtil.initialize(day+1);
+        CelestialSystem solarSystem = new CelestialSystem("Solar System");
+        solarSystem.add(new CelestialBody("Sol", 1.989e30, 696340e3, StdDraw.YELLOW));
+        solarSystem.add(new CelestialBody("Mercury", 0.330114e23, 2439.4e3, StdDraw.GRAY));
+        solarSystem.add(new CelestialBody("Venus", 4.86747e24, 6051.8e3, StdDraw.PINK));
+        solarSystem.add(new CelestialBody("Earth", 5.97237e24, 6371.0084e3, StdDraw.BLUE));
+        solarSystem.add(new CelestialBody("Mars", 0.641712e24, 3389.5e3, StdDraw.RED));
 
+        /*
         //Initialize jupiter system:
         CelestialSystem jupiterSystem = new CelestialSystem("Jupiter system");
         jupiterSystem.add(new CelestialBody("Jupiter", 1.898e27, 69911e3, StdDraw.ORANGE));
@@ -52,8 +75,11 @@ public class Simulation {
 
         //Initialize saturn system:
         CelestialSystem saturnSystem = new CelestialSystem("Saturn system");
+        /**/
 
         //Test cases:
+        System.out.println("TEST CASES!");
+        /*
         System.out.println("\r\nTest CelestialBodyIterator:");
         jupiterSystem.iterator();
         for (CelestialBody body : jupiterSystem) {
@@ -89,6 +115,16 @@ public class Simulation {
         treeVariant = new CelestialSystemIndexTreeVariantC(comparator);
         viewCollection = treeVariant.bodies();
         System.out.println(viewCollection);
+        /**/
+
+        //CelestialBodyCollection bodyCollection = new CelestialSystem("Variant System");
+        try {
+            ReadDataUtil.readConfiguration(filePath, solarSystem, initialDay);
+            System.out.println("Running Simulation...");
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+            System.exit(-1);
+        }
 
         //Setup Canvas:
         /*
@@ -126,5 +162,6 @@ public class Simulation {
                 StdDraw.show();
             }
         }/**/
+        System.exit(0);
     }
 }

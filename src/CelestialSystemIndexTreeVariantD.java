@@ -28,15 +28,17 @@ public class CelestialSystemIndexTreeVariantD implements CelestialSystemIndex, C
         if (system == null || system.size() == 0) {
             return false;
         }
-
+        assert system.size() > 0;
         for (int i = 0; i < system.size(); i++) {
             if (root.get(system.get(i)) != null) {
                     return false;
             }
         }
 
+        assert system.size() > 0; // new bodies got added
         root = root.add(new VariantDNonNullNode(system.get(0), system, comparator));
 
+        assert system.size() > 0; // new bodies got added
         for (int i = 1; i < system.size(); i++) {
             root = root.add(new VariantDNonNullNode(system.get(i), system, comparator));
         }
@@ -110,23 +112,45 @@ class VariantDNullNode implements VariantDNode {
     // state of 'this' can not be changed.
     public static final VariantDNullNode NIL = new VariantDNullNode();
 
-    // private to avoid object creation from outside
+    /**
+     * private to avoid object creation from outside
+     */
     private VariantDNullNode() {}
 
+    /**
+     * Assert: 'this' == null
+     * @param node Null-node
+     * @return null
+     */
     public VariantDNode add(VariantDNode node) {
+        assert node == null; // return null as nothing changed
         return node;
     }
 
+    /**
+     * Assert: 'this' == null
+     * @param body Body to look for
+     * @return null
+     */
     public CelestialSystem get(CelestialBody body) {
-        return null;
+        return null; // return null as nothing changed
     }
 
+    /**
+     * Assert: 'this' == null
+     * @return Empty string
+     */
     public String toString() {
         return "";
     }
 
+    /**
+     * Assert: 'this' == null
+     * @param parent parent node
+     * @return Reference of parent node
+     */
     public VariantDNodeIterator iterator(VariantDNodeIterator parent) {
-        return parent;
+        return parent; // assert: parent != null
     }
 
     public CelestialBody getKey() {
@@ -152,8 +176,13 @@ class VariantDNonNullNode implements VariantDNode {
 
     }
 
+    /**
+     * Assert: node != null
+     * @param node node to be added
+     * @return 'this' if added successfully, null otherwise
+     */
     public VariantDNode add(VariantDNode node) {
-
+        assert node != null;
         int comp = this.comparator.compare(this.key, node.getKey());
         if (comp > 0) {
             left = left.add(node);
@@ -162,7 +191,7 @@ class VariantDNonNullNode implements VariantDNode {
                 right = right.add(node);
             }
         }
-
+        assert (right != null) || (left != null); // node was added successfully
         return this;
     }
 
@@ -170,13 +199,12 @@ class VariantDNonNullNode implements VariantDNode {
         if (key.equals(body)) {
             return cs;
         }
-
+        assert !body.equals(key);
         if (this.comparator.compare(this.key, body) > 0) {
             return left.get(body);
         } else {
             return right.get(body);
         }
-
     }
 
     public String toString() {
@@ -187,8 +215,8 @@ class VariantDNonNullNode implements VariantDNode {
         result += this.key + " belongs to " + this.cs;
         result += right.isEmpty() ? "" : ",\n";
         result += right;
+        assert result != ""; // make sure the string is not empty
         return result;
-
     }
 
     public CelestialBody getKey() {

@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="4236b4ff-fbae-4bdc-9c41-0cd9cb98ef1c" name="Default Changelist" comment="v6.1: first release">
+    <list default="true" id="4236b4ff-fbae-4bdc-9c41-0cd9cb98ef1c" name="Default Changelist" comment="v8.0: first release">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/CelestialBody.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/CelestialBody.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CelestialSystemIndexTreeVariantC.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/CelestialSystemIndexTreeVariantC.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CelestialSystemIndexTreeVariantD.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/CelestialSystemIndexTreeVariantD.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FileFormatException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/FileFormatException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FileNotFoundException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/FileNotFoundException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ReadDataUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ReadDataUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Simulation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Simulation.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -201,7 +205,14 @@
       <option name="project" value="LOCAL" />
       <updated>1590079222302</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="v6.2: changed copy of tree">
+      <created>1590250216794</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1590250216794</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -245,15 +256,9 @@
     <MESSAGE value="v5.1: added some comments" />
     <MESSAGE value="v6.0: under construction" />
     <MESSAGE value="v6.1: first release" />
-    <option name="LAST_COMMIT_MESSAGE" value="v6.1: first release" />
-  </component>
-  <component name="XDebuggerManager">
-    <watches-manager>
-      <configuration name="Application">
-        <watch expression="map" language="JAVA" />
-        <watch expression="map2" language="JAVA" />
-      </configuration>
-    </watches-manager>
+    <MESSAGE value="v6.2: changed copy of tree" />
+    <MESSAGE value="v8.0: first release" />
+    <option name="LAST_COMMIT_MESSAGE" value="v8.0: first release" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Arbeitsblatt$run_Simulation.ic" NAME="run Simulation Coverage Results" MODIFIED="1587582162692" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />

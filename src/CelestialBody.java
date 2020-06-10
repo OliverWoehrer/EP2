@@ -124,7 +124,7 @@ public class CelestialBody {
      */
     @Override
     public String toString() {
-        return "["+name+"] "+mass+" kg, radius: "+radius+" m, at "+position+", "+velocity+" (m/s)";
+        return "["+name+"] ";
     }
 
     /**
