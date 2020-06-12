@@ -14,27 +14,22 @@ public class Simulation {
     // The main simulation method using instances of other classes.
     public static void main(String[] args) {
         Locale.setDefault(Locale.US); // use US formatted numbers (dot (.) as comma)
-        String filePath;
-        int initialDay;
-        try {
-            if (args.length != 2) {
-                System.err.println("Error: wrong number of arguments ("+args.length+")! Two arguments required");
-                throw new IllegalArgumentException();
-            }
-            filePath = args[0];
-            initialDay = Integer.parseInt(args[1]);
-            if (!(0 <= initialDay && initialDay <= 365)) {
-                System.out.println("Error: invalid day value ("+initialDay+")");
-                throw new IllegalArgumentException();
-            }
-        } catch (IllegalArgumentException e) {
+
+        //Check arguments:
+        if (args.length != 2) {
+            System.err.println("Error: wrong number of arguments ("+args.length+")! Try <file path> <initial day>");
             System.exit(-1);
-            throw e;
+        }
+        String filePath = args[0];
+        int initialDay = Integer.parseInt(args[1]);
+        if (!(0 <= initialDay && initialDay <= 365)) {
+            System.err.println("Error: invalid day value ("+initialDay+")! Day must be in range 0...365.");
+            System.exit(-1);
         }
 
 
         //Read initial body positions and pass via linked list:
-        //CelestialSystem bodies = ReadDataUtil.initialize(day+1);
+        //CelestialSystem solarSystem = ReadDataUtil.initialize(day+1);
         CelestialSystem solarSystem = new CelestialSystem("Solar System");
         solarSystem.add(new CelestialBody("Sol", 1.989e30, 696340e3, StdDraw.YELLOW));
         solarSystem.add(new CelestialBody("Mercury", 0.330114e23, 2439.4e3, StdDraw.GRAY));
@@ -78,7 +73,6 @@ public class Simulation {
         /**/
 
         //Test cases:
-        System.out.println("TEST CASES!");
         /*
         System.out.println("\r\nTest CelestialBodyIterator:");
         jupiterSystem.iterator();
@@ -117,12 +111,11 @@ public class Simulation {
         System.out.println(viewCollection);
         /**/
 
-        //CelestialBodyCollection bodyCollection = new CelestialSystem("Variant System");
         try {
             ReadDataUtil.readConfiguration(filePath, solarSystem, initialDay);
             System.out.println("Running Simulation...");
         } catch (IOException e) {
-            System.out.println(e.getMessage());
+            System.err.println(e.getMessage());
             System.exit(-1);
         }
 
@@ -139,29 +132,30 @@ public class Simulation {
             seconds++; // each iteration computes within one second.
 
             //Compute the total force exerted on each body:
-            Vector3[] forceOnBody = new Vector3[bodies.size()];
-            for (int i = 0; i < bodies.size(); i++) {
+            Vector3[] forceOnBody = new Vector3[solarSystem.size()];
+            for (int i = 0; i < solarSystem.size(); i++) {
                 forceOnBody[i] = new Vector3(0,0,0); // begin with zero
-                for (int j = 0; j < bodies.size(); j++) {
+                for (int j = 0; j < solarSystem.size(); j++) {
                     if (i == j) continue;
-                    Vector3 forceToAdd = bodies.get(i).gravitationalForce(bodies.get(j));
+                    Vector3 forceToAdd = solarSystem.get(i).gravitationalForce(solarSystem.get(j));
                     forceOnBody[i] = forceOnBody[i].plus(forceToAdd);
                 }
             }
 
-            for (int i = 0; i < bodies.size(); i++) {
-                bodies.get(i).move(forceOnBody[i]);
+            for (int i = 0; i < solarSystem.size(); i++) {
+                solarSystem.get(i).move(forceOnBody[i]);
             }
 
             //Show all movements in StdDraw only every several hours (to speed up the simulation):
             if (seconds%secondsPerFrame == 0) {
                 //StdDraw.clear(StdDraw.BLACK); // <--exclude if you want to draw orbits
-                for (int i = 0; i < bodies.size(); i++) {
-                    bodies.get(i).draw();
+                for (int i = 0; i < solarSystem.size(); i++) {
+                    solarSystem.get(i).draw();
                 }
                 StdDraw.show();
             }
         }/**/
+        System.out.println("End of simulation!");
         System.exit(0);
     }
 }
